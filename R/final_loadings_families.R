@@ -14,19 +14,23 @@
 #' @examples
 #' # convert a sample set of neurons to supervoxel representation
 #' kcdens=voxel_dens(nat::kcs20)
-voxel_dens= function(setofneurons, svoxels=svoxels.fcwb, svoxels.table=svoxels.fcwb.table){
-  svoxel.output.neu = matrix(0, nrow = length(setofneurons), ncol = length(svoxels.table))
-  colnames(svoxel.output.neu)=names(svoxels.table)
-  rownames(svoxel.output.neu)=names(setofneurons)
-  for(n in names(setofneurons)) {
+voxel_dens = function(setofneurons,
+                      svoxels = familynblast::svoxels.fcwb,
+                      svoxels.table = familynblast::svoxels.fcwb.table) {
+  svoxel.output.neu = matrix(0,
+                             nrow = length(setofneurons),
+                             ncol = length(svoxels.table))
+  colnames(svoxel.output.neu) = names(svoxels.table)
+  rownames(svoxel.output.neu) = names(setofneurons)
+  for (n in names(setofneurons)) {
     message("working on neuron:", n)
     # find 1d indices of 3D coords into FCWB space
-    idxs=coord2ind(xyzmatrix(setofneurons[[n]]), imdims = svoxels)
+    idxs = coord2ind(xyzmatrix(setofneurons[[n]]), imdims = svoxels)
     # then get label values for those coords
-    svoxel.ids=svoxels[idxs]
+    svoxel.ids = svoxels[idxs]
     # compute density i.e. number of points in each domain
-    tsvoxel.ids=table(svoxel.ids)
-    svoxel.output.neu[n,names(tsvoxel.ids)]=tsvoxel.ids
+    tsvoxel.ids = table(svoxel.ids)
+    svoxel.output.neu[n, names(tsvoxel.ids)] = tsvoxel.ids
   }
   return(svoxel.output.neu)
 }
@@ -235,7 +239,7 @@ return(probability_correct_families)
 }
 
 
-#' Create the probability matrix that contains the supervoxels in rows and families in columns for a setoffamilies
+#' Create probability matrix with supervoxels as rows and families as columns for a setoffamilies
 #'
 #' @param setoffamilies
 #' @param computedens

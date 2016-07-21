@@ -2,7 +2,7 @@
 % Please edit documentation in R/final_loadings_families.R
 \name{create_probab_sv_knowing_fam}
 \alias{create_probab_sv_knowing_fam}
-\title{Create the probability matrix that contains the supervoxels in rows and families in columns for a setoffamilies}
+\title{Create probability matrix with supervoxels as rows and families as columns for a setoffamilies}
 \usage{
 create_probab_sv_knowing_fam(setoffamilies, computedens = FALSE)
 }
@@ -10,6 +10,6 @@ create_probab_sv_knowing_fam(setoffamilies, computedens = FALSE)
 \item{computedens}{}
 }
 \description{
-Create the probability matrix that contains the supervoxels in rows and families in columns for a setoffamilies
+Create probability matrix with supervoxels as rows and families as columns for a setoffamilies
 }
 

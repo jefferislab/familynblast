@@ -4,8 +4,8 @@
 \alias{voxel_dens}
 \title{Computes the number of points from a setofneurons in each supervoxel}
 \usage{
-voxel_dens(setofneurons, svoxels = svoxels.fcwb,
-  svoxels.table = svoxels.fcwb.table)
+voxel_dens(setofneurons, svoxels = familynblast::svoxels.fcwb,
+  svoxels.table = familynblast::svoxels.fcwb.table)
 }
 \arguments{
 \item{setofneurons}{\code{\link[nat]{neuronlist}} object containing set}

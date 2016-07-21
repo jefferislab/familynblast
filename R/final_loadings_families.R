@@ -31,8 +31,22 @@ voxel_dens= function(setofneurons, svoxels=svoxels.fcwb, svoxels.table=svoxels.f
   return(svoxel.output.neu)
 }
 
-### computing the score of one neuron against a particular family, given the index of the name of the family in correct_families
-neurons_against_fam  = function(listneurons,familyind, computedens = FALSE,zeroscore = -100){
+
+#' Computing the score of one neuron against a particular family, given the
+#' index of the name of the family in correct_families
+#'
+#' @param listneurons
+#' @param familyind
+#' @param computedens
+#' @param zeroscore Log score to use when a neuron occupies a supervoxel that is
+#'   not overlapped by any family member.
+#'
+#' @return
+#' @export
+#' @family find-family
+#'
+#' @examples
+neurons_against_fam  = function(listneurons,familyind, computedens = FALSE, zeroscore = -100){
   if (computedens == TRUE){
     voxel_dens_allneurons = voxel_dens(listneurons)
     rownames(voxel_dens_allneurons) = listneurons
@@ -49,14 +63,22 @@ neurons_against_fam  = function(listneurons,familyind, computedens = FALSE,zeros
     score_f = score_f+zeroscore*zeros
     Score = c(Score,score_f)
     }
-    Score = Score/length(sv_neurons)+log(probability_correct_families[familyind])
+    Score = Score/length(sv_neurons)+log(familynblast::probability_correct_families[familyind])
   return(Score)
 }
 
-### find_scores_family intermediate function that contains all the scores of the list ofneurons against the families
-find_scores_family = function(listneurons,computedens = FALSE,zeroscore = -100){
-  matrix_scores_neurons = matrix(0,nrow =listneurons, ncol = length(correct_families))
-  for(k in 1:length(correct_families)){
+
+#' Find scores of list of neurons against all families
+#'
+#' @inheritParams neurons_against_fam
+#' @return
+#' @export
+#' @family find-family
+#'
+#' @examples
+find_scores_family = function(listneurons, computedens = FALSE, zeroscore = -100){
+  matrix_scores_neurons = matrix(0,nrow =listneurons, ncol = length(familynblast::correct_families))
+  for(k in 1:length(familynblast::correct_families)){
     matrix_scores_neurons[,k] = neurons_against_fam(listneurons,familyind = k,computedens=FALSE, zeroscore=-100)
   }
 
@@ -66,13 +88,25 @@ find_scores_family = function(listneurons,computedens = FALSE,zeroscore = -100){
   }
   names(list_scores_neurons) = names(listneurons)
   for(i in seq_along(list_scores_neurons)){
-    names(list_scores_neurons[[i]])=names(correct_families)
+    names(list_scores_neurons[[i]])=names(familynblast::correct_families)
   }
   return(list_scores_neurons)
 }
 
-#### find_neurons_family contains the list of families associated to the list of neurons given
-find_neurons_family = function(listneurons,save = FALSE, path="",computedens = FALSE){
+
+#' Predict the families for a list of neurons
+#'
+#' @details This will return
+#'
+#' @param save
+#' @param path
+#' @inheritParams neurons_against_fam
+#'
+#' @return
+#' @export
+#'
+#' @family find-family
+find_neurons_family = function(listneurons, save = FALSE, path="", computedens = FALSE){
   familiesof_listofneurons = c()
   list_scores_neurons = find_scores_family(listneurons, computedens=FALSE)
   for(i in seq_along(listneurons)){
@@ -87,14 +121,22 @@ find_neurons_family = function(listneurons,save = FALSE, path="",computedens = F
   return(familiesof_listofneurons)
 }
 
-### find the percentage of correct hits within the first nb highest scores
-find_percentage_correct_hits = function(listneurons,nb = 3){
+
+#' Find the percentage of correct hits within the nth highest scores
+#'
+#' @param listneurons FIXME
+#' @param nb The number of high scores to consider
+#'
+#' @return FIXME
+#' @export
+find_percentage_correct_hits = function(listneurons, nb = 3){
   Percents = c()
-  scorestouse = list_scores_neurons_cv_fun
+  scorestouse = list_scores_neurons_cv_fun(listneurons)
   for(j in 1:nb){
-  for(l in seq_along(scorestouse)){
+    correct_hits=0
+    for(l in seq_along(listneurons)){
       name_hit=names(scorestouse[[l]])[rev(order(scorestouse[[l]]))[1:j]]
-      if(length(intersect(neuron[[1]],name_hit))>0){
+      if(listneurons[l] %in% name_hit){
         print("well done !!")
         correct_hits = correct_hits+1
       }else{
@@ -104,11 +146,17 @@ find_percentage_correct_hits = function(listneurons,nb = 3){
     }
     Percents = c(Percents, percentage_correct)
   }
-return(Percents)
+  return(Percents)
 }
 
-### find the list of scores of all the neurons for the cross validation approach !!
-list_scores_neurons_cv_fun = function(listneurons = fc_neuron_typec, computedens = FALSE,zeroscore = -100 ){
+
+#' Find the list of scores of all the neurons for the cross validation approach
+#'
+#' @inheritParams neurons_against_fam
+#'
+#' @return
+#' @export
+list_scores_neurons_cv_fun = function(listneurons = familynblast::fc_neuron_typec, computedens = FALSE,zeroscore = -100 ){
   if (computedens == TRUE){
     voxel_dens_allneurons = voxel_dens(listneurons)
     rownames(voxel_dens_allneurons) = listneurons
@@ -119,16 +167,16 @@ list_scores_neurons_cv_fun = function(listneurons = fc_neuron_typec, computedens
     neuron = listneurons[k]
     ### Find the neuron and take it out
     fc_neuron_typecb = listneurons[which(names(listneurons)!=names(neuron))]
-    correct_familiesb = correct_families
-    correct_familiesb[[neuron[[1]]]] = correct_families[[neuron[[1]]]][names(correct_families[[neuron[[1]]]])!=names(neuron)]
+    correct_familiesb = familynblast::correct_families
+    correct_familiesb[[neuron[[1]]]] = familynblast::correct_families[[neuron[[1]]]][names(familynblast::correct_families[[neuron[[1]]]])!=names(neuron)]
 
     ### Process with the families
-    probability_correct_families_b = probability_correct_families
+    probability_correct_families_b = familynblast::probability_correct_families
     indx = which(names(correct_familiesb)==neuron[[1]])
     probability_correct_families_b[,indx]=length(correct_familiesb[[indx]])/length(fc_neuron_typecb)
 
     ### Process to compute the number of neuron in the family
-    number_neurons_fromfam_insv_b = number_neurons_fromfam_insv
+    number_neurons_fromfam_insv_b = familynblast::number_neurons_fromfam_insv
 
     if(length(ncol(voxel_dens_allneurons[names(correct_familiesb[[indx]]),]!=0))==0){
       number_neurons_fromfam_insv_b[,indx] = sum(voxel_dens_allneurons[names(correct_familiesb[[indx]]),]!=0)
@@ -137,7 +185,7 @@ list_scores_neurons_cv_fun = function(listneurons = fc_neuron_typec, computedens
     }
 
     probability_sv_knowing_familyb = probability_sv_knowing_family
-    probability_sv_knowing_familyb[,indx] = number_neurons_fromfam_insv_b[,indx]/length(correct_families[[indx]])
+    probability_sv_knowing_familyb[,indx] = number_neurons_fromfam_insv_b[,indx]/length(familynblast::correct_families[[indx]])
 
 
     sv_neurons_b = names(voxel_dens_allneurons[names(neuron),voxel_dens_allneurons[names(neuron),]>0])
@@ -158,16 +206,25 @@ list_scores_neurons_cv_fun = function(listneurons = fc_neuron_typec, computedens
     Score= list(Score)
     list_scores_neurons_cv = append(list_scores_neurons_cv,Score)
   }
-  names(list_scores_neurons_cv) = names(fc_neuron_typec)
+  names(list_scores_neurons_cv) = names(listneurons)
 
   for(i in seq_along(list_scores_neurons_cv)){
-    names(list_scores_neurons_cv[[i]])=names(correct_families)
+    names(list_scores_neurons_cv[[i]])=names(familynblast::correct_families)
   }
   return(list_scores_neurons_cv)
 }
 
-### Create the probability matrices
-### The set of families should be of the form: list of families and in each list the list of neurons in this family. An example is the "correct_families"
+#' Calculate prior probability for a set of families
+#'
+#' The set of families should be of the form: list of families and in each list
+#' the list of neurons in this family. An example is
+#' \code{\link{correct_families}}.
+#'
+#' @param setoffamilies
+#'
+#' @return
+#' @export
+#' @seealso \code{\link{correct_families}}
 create_probab_families = function(setoffamilies){
   probability_correct_families = matrix(0,nrow=1,ncol=length(setoffamilies))
   for (i in seq_along(setoffamilies)){
@@ -177,11 +234,20 @@ create_probab_families = function(setoffamilies){
 return(probability_correct_families)
 }
 
-### create the probability matrix that contains the supervoxels in rows and families in columns for a setoffamilies
-create_probab_sv_knowing_fam = function(setoffamilies,computedens=FALSE){
+
+#' Create the probability matrix that contains the supervoxels in rows and families in columns for a setoffamilies
+#'
+#' @param setoffamilies
+#' @param computedens
+#'
+#' @return
+#' @export
+#'
+#' @examples
+create_probab_sv_knowing_fam = function(setoffamilies, computedens=FALSE){
   if (computedens == TRUE){
-    voxel_dens_allneurons = voxel_dens(listneurons)
-    rownames(voxel_dens_allneurons) = listneurons
+    voxel_dens_allneurons = voxel_dens(unlist(setoffamilies, use.names=F))
+    rownames(voxel_dens_allneurons) = unlist(setoffamilies, use.names = F)
   }
   number_neurons_fromfam_insv = matrix(0,nrow=7065,ncol=length(setoffamilies))
   for (i in seq_along(setoffamilies)){
@@ -196,7 +262,7 @@ create_probab_sv_knowing_fam = function(setoffamilies,computedens=FALSE){
   probability_sv_knowing_family = matrix(0,nrow=7065,ncol=length(setoffamilies))
   for(l in seq_along(setoffamilies)){
     for (k in 1:7065){
-      probability_sv_knowing_family[k,l] = number_neurons_fromfam_insv[k,l]/length(correct_families[[l]])
+      probability_sv_knowing_family[k,l] = number_neurons_fromfam_insv[k,l]/length(familynblast::correct_families[[l]])
     }
   }
   return(probability_sv_knowing_family)

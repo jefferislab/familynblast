@@ -43,3 +43,13 @@ NULL
 #' @name svoxels.fcwb
 #' @docType data
 NULL
+
+#' Precalculated super voxel density representation of flycircuit neurons
+#'
+#' This object is a sparse \code{\link[Matrix]{Matrix}} since it has many zeros.
+#' It has 7066 columns (all supervoxels including catch-all 0 level) and 16129
+#' rows for each flycircuit neuron. The rows are named with the flycircuit
+#' \code{gene_name} - see \code{\link[flycircuit]{fc_gene_name}}. CHECK
+#' @name voxel_dens_allneurons
+#' @docType data
+NULL

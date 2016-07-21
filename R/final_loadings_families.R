@@ -17,35 +17,16 @@ library(nat.nblast)
 
 # set default neuronlist
 options('nat.default.neuronlist'='dps')
-#load("/Volumes/JData5/JPeople/Melina/Branson/data/all_indices_voxels")                  ### All the indices of the supervoxels
-load("/Volumes/JData5/JPeople/Melina/Branson/data/voxel_dens_allneurons")               ### All the number of points from the neurons crossing the supervoxels
-voxel_dens_allneurons = voxel_dens_allneurons[,2:7066]
-load("/Volumes/JData5/JPeople/Melina/Branson/data/fc_neuron_typec")                     ### All the neurons with the correct labels we are working on
-load("/Volumes/JData5/JPeople/Melina/Branson/data/correct_families")                    ### All 137 families, we still have to get rid of the ones that contains one neuron
-load("/Volumes/JData5/JPeople/Melina/Branson/data/probability_correct_families")        ### Probability to have one particular family 
-load("/Volumes/JData5/JPeople/Melina/Branson/data/number_neurons_fromfam_insv")         ### The numbes of neurons crossing each supervoxel, matrix of 706
-load("/Volumes/JData5/JPeople/Melina/Branson/data/probability_sv_knowing_family")       ### The probabilities of all the supervoxels in each family, matrix of nrow = 7065
-load(file="/Volumes/JData5/JPeople/Melina/Branson/data/names_svoxels") # Names of the supervoxels
-probability_sv_knowing_family=round(probability_sv_knowing_family,3)
-rownames(probability_sv_knowing_family) = names_svoxels[-1]
-svoxels.fcwb=read.im3d("/Users/Melina/Documents/Stage/Scripts/Funs/FCWB_AnatomySubCompartments20150108_ms7065centers.nrrd")
-quicktable <- function(x) {
-  xname=deparse(substitute(x))
-  tt=tabulate(x+1)
-  levels=seq.int(from=0, length.out = length(tt))
-  nz=tt!=0L
-  
-  structure(tt[nz], .Dim = sum(nz), 
-            .Dimnames = structure(list(as.character(levels[nz])), .Names = xname),
-            class = "table")
-}
-svoxels.fcwb.table=quicktable(svoxels.fcwb)
-nsvoxels=length(svoxels.fcwb.table)
 
-
-### voxel dens computes the number of points from a setofneurons in each supervoxel
+#' computes the number of points from a setofneurons in each supervoxel
+#'
+#' @param setofneurons
+#'
+#' @return
+#' @export
+#' @importFrom nat.flybrains FCWB
 voxel_dens= function(setofneurons){
-  svoxel.output.neu = matrix(0, nrow = length(setofneurons), ncol = nsvoxels)
+  svoxel.output.neu = matrix(0, nrow = length(setofneurons), ncol = length(svoxels.fcwb.table))
   colnames(svoxel.output.neu)=names(svoxels.fcwb.table)
   rownames(svoxel.output.neu)=names(setofneurons)
   for(n in names(setofneurons)) {

@@ -8,7 +8,8 @@ load("/Volumes/JData5/JPeople/Melina/Branson/data/probability_sv_knowing_family"
 # we don't really need this since it will be evident from other objects
 load(file="/Volumes/JData5/JPeople/Melina/Branson/data/names_svoxels") # Names of the supervoxels
 probability_sv_knowing_family=round(probability_sv_knowing_family,3)
-rownames(probability_sv_knowing_family) = names(svoxels.fcwb.table)
+rownames(probability_sv_knowing_family) = names(svoxels.fcwb.table)[-1]
+colnames(probability_sv_knowing_family)=names(correct_families)
 
 library(devtools)
 use_data(probability_sv_knowing_family, overwrite = T)

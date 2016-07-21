@@ -1,0 +1,180 @@
+---
+title: "Predicting Families"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Preface 
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+# Intro
+
+This will give an example of how to predict the family of a neuron from 137 families characterised during the internship
+
+The first part of the code is just loading the libraries and list of neurons used
+```{r, message=FALSE}
+library("nat.flybrains")
+library(nat)
+library(flycircuit)
+library(nat.nblast)
+
+### Pour trouver jet.colors il faut regarder la défintion dans colorampalette 
+#----------------------------------
+fc_download_data('http://flybrain.mrc-lmb.cam.ac.uk/si/nblast/flycircuit/allbyallblastcv4.5.ff',
+                 type='ff')
+# set that as default all by all score matrix
+options('flycircuit.scoremat'="allbyallblastcv4.5.ff")
+# load neuron list
+# the actual neuron data will be downloaded and cached to your machine on demand
+dps<-read.neuronlistfh("http://flybrain.mrc-lmb.cam.ac.uk/si/nblast/flycircuit/dpscanon.rds",
+                       localdir=getOption('flycircuit.datadir'))
+remotesync(dps, download.missing=T)
+```
+
+
+Then we load precomputed matrices and functions
+```{r}
+source("final_loadings_families.R")
+```
+# Given a set of families, how to compute the probability matrices ?  For the example we take the correct_families
+```{r}
+prob_fam = create_probab_families(correct_families) # Gives back the probability to be in a certain family 
+prob_sv_fam = create_probab_sv_knowing_fam(correct_families) # Gives back the probability to have a certain supervoxel knowing the family
+```
+
+# Given a list of neurons, what are their families ?
+To find the families of the neurons from a listofneurons, the listneurons are to be names of neurons, for example let's take the family [[1]]
+```{r}
+listneurons = correct_families[[1]]
+families_listneurons = find_neurons_family(listneurons)
+```
+
+
+# To re-compute the histograms of the value of the scores given the rank 
+```{r}
+load("/Volumes/JData5/JPeople/Melina/Branson/data/list_scores_neurons_cv")
+load("/Volumes/JData5/JPeople/Melina/Branson/data/names_correct_families_withoutsingles")  ### This contains the names of the families that contain more than one neuron
+all_hits_scores = matrix(0,nrow = length(fc_neuron_typec),ncol=137) 
+### This matrix contains the value of the first score, the second and etc in columns
+for (i in seq_along(fc_neuron_typec)){
+  print(i)
+  list_scores_neurons_cv_b =list_scores_neurons_cv[[i]]
+  all_hits_scores[i,] = rev(sort(list_scores_neurons_cv_b))
+}
+### To plot the histogram of the first score along with the histogram of the second score:
+hist(all_hits_scores[,1],breaks=100,main="",xlim = c(-50,0),xaxp=c(-500,0,10),ylim=c(0,2000),yaxp = c(0,2000,20),col="black")
+par(new=T)
+hist(all_hits_scores[,2],breaks=100,main="",xlim = c(-50,0),xaxp=c(-50,0,10),ylim=c(0,2000),yaxp = c(0,2000,20))
+```
+
+
+# To create the plot where we see the evolution of the value of the score with the rank
+```{r}
+all_hits_scores_means =  matrix(0,nrow =3 ,ncol=length(names_correct_families_withoutsingles))
+for(i in seq_along(names_correct_families_withoutsingles)){
+  print(i)
+  all_hits_scores_means[,i] = c(mean(all_hits_scores[,i]),mean(all_hits_scores[,i])+sd(all_hits_scores[,i]),
+                                mean(all_hits_scores[,i])-sd(all_hits_scores[,i]))
+}
+x= 1:length(names_correct_families_withoutsingles)
+plot(x,all_hits_scores_means[1,],pch=19,col="red",cex= 0.7,xlab="Hit index",ylab="Score of the hit",yaxp=c(-100,0,10),ylim=c(-100,0))
+points(x,all_hits_scores_means[2,],pch=18,col="blue",cex=0.5)
+points(x,all_hits_scores_means[3,],pch=18,col="blue",cex=0.5)
+grid()
+```
+
+
+# To find the percentage of neurons correctly labelled within the first 1 to 5 hits, just run this but it can take a lot of time as it's compued for all the neurons !:
+```{r,eval=F}
+Percents = find_percentage_correct_hits(correct_families[[1]],nb = 3)
+```
+
+
+
+# Creating a confusion matrix on the scores
+```{r,eval=F}
+neurons_families = find_neurons_family(listneurons = fc_neuron_typec[1:100])
+families_confusion = matrix(0,137,137)
+rownames(families_confusion) = names(correct_families)
+colnames(families_confusion) = names(correct_families)
+for(i in seq_along(neurons_families)){
+  families_confusion[fc_neuron_typec[names(neurons_families)[i]],neurons_families[i]]=
+  families_confusion[fc_neuron_typec[names(neurons_families)[i]],neurons_families[i]]+1
+}
+families_confusionn = families_confusion
+for(j in 1:137){
+  families_confusionn[j,] = families_confusion[j,]/length(correct_families[[j]])
+}
+colnames(families_confusion) = paste(names(correct_families),"P")
+````
+
+
+# Plotting the confusion matrix
+```{r}
+heatmap(families_confusion,margins=c(15,15),cexRow = 0.3,cexCol = 0.3,Rowv = NA,Colv = NA)
+### Plotting a subset 
+heatmap(families_confusion[1:100,1:100],margins=c(15,15),cexRow = 0.4,cexCol = 0.4,Rowv = NA,Colv = NA)
+
+```
+
+
+# List of scores of the leave one out cross validation 
+```{r}
+#list_scores_neurons_cv = list_scores_neurons_cv_fun()
+load("/Volumes/JData5/JPeople/Melina/Branson/data/list_scores_neurons_cv")
+```
+
+# Confusion matrix for the leave one out 
+```{r}
+families_confusion_leaveone = matrix(0,137,137)
+rownames(families_confusion_leaveone) = names(correct_families)
+colnames(families_confusion_leaveone) = names(correct_families)
+for(i in seq_along(neurons_families)){
+  fam = which.max(list_scores_neurons_cv[[i]])
+  families_confusion_leaveone[fc_neuron_typec[i],fam]=
+  families_confusion_leaveone[fc_neuron_typec[i],fam]+1
+}
+families_confusionn_leaveone = families_confusion_leaveone
+for(j in 1:137){
+  families_confusionn_leaveone[j,] = families_confusion_leaveone[j,]/length(correct_families[[j]])
+}
+colnames(families_confusion_leaveone) = paste(names(correct_families),"P")
+```
+
+
+# Plot of the confusion matrix for the leave one out
+```{r}
+heatmap(families_confusionn_leaveone,margins=c(15,15),cexRow = 0.3,cexCol = 0.3,Rowv = NA,Colv = NA)
+```
+
+
+# Test on the data not associated to a family, either load precomputed data to re-plot or re-compute! 
+```{r}
+load("/Volumes/JData5/JPeople/Melina/Branson/data/testset")
+load("/Volumes/JData5/JPeople/Melina/Branson/data/test_unclassified")
+# testset = dps[setdiff(names(dps),names(fc_neuron_typec))] 
+test_unclassified = find_neurons_family(testset)
+## percentage of them associated to no family 
+per = sum(test_unclassified=="no family for this neuron")/length(testset) #=>73% were not associated to families
+```
+
+# Take a look at the neurons labelled
+```{r}
+labelledneu = test_unclassified[test_unclassified!="no family for this neuron"]
+table(labelledneu)
+for(i in seq_along(table(labelledneu))){
+  clear3d()
+  plot3d(names(correct_families[[names(table(labelledneu))[i]]]),col="red")
+  plot3d(names(which(test_unclassified == names(table(labelledneu))[i])),col="black")
+  plot3d(FCWB)
+}
+
+## Worst families
+sort(table(labelledneu)*100/3006)
+```

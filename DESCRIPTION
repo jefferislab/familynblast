@@ -1,0 +1,12 @@
+Package: familynblast
+Type: Package
+Title: NBLAST to identify neuron families and subfamilies
+Version: 0.1.0
+Author: Melina Durande
+Maintainer: Melina Durande <melina.durande@ens-lyon.fr>
+Description: A supervised approach to identyfing neuron families based on a
+    supervoxel representation of their patterns of innervation in the brain.
+License: GPL-3
+LazyData: TRUE
+URL: https://github.com/mdurande/familynblast
+BugReports: https://github.com/mdurande/familynblast/issues

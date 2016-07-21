@@ -3,7 +3,7 @@ library(nat)
 library(flycircuit)
 library(nat.nblast)
 
-### Pour trouver jet.colors il faut regarder la défintion dans colorampalette 
+### Pour trouver jet.colors il faut regarder la défintion dans colorampalette
 #----------------------------------
 # fc_download_data('http://flybrain.mrc-lmb.cam.ac.uk/si/nblast/flycircuit/allbyallblastcv4.5.ff',
 #                  type='ff')
@@ -39,7 +39,7 @@ voxel_dens= function(setofneurons){
     tsvoxel.ids=table(svoxel.ids)
     svoxel.output.neu[n,names(tsvoxel.ids)]=tsvoxel.ids
   }
-  return(svoxel.output.neu)  
+  return(svoxel.output.neu)
 }
 
 ### computing the score of one neuron against a particular family, given the index of the name of the family in correct_families
@@ -51,8 +51,8 @@ neurons_against_fam  = function(listneurons,familyind, computedens = FALSE,zeros
   Score =c()
   for (k in seq_along(listneurons)){                                        ## for each neuron
     print(k)
-    neuron = listneurons[k]                  
-    sv_neurons = names(voxel_dens_allneurons[names(neuron),voxel_dens_allneurons[names(neuron),]>0])    
+    neuron = listneurons[k]
+    sv_neurons = names(voxel_dens_allneurons[names(neuron),voxel_dens_allneurons[names(neuron),]>0])
     prob = probability_sv_knowing_family[sv_neurons,familyind]
     zeros = sum(prob==0)
     prob2 = prob[which(prob!=0)]
@@ -70,7 +70,7 @@ find_scores_family = function(listneurons,computedens = FALSE,zeroscore = -100){
   for(k in 1:length(correct_families)){
     matrix_scores_neurons[,k] = neurons_against_fam(listneurons,familyind = k,computedens=FALSE, zeroscore=-100)
   }
-  
+
   list_scores_neurons = list()
   for(l in 1:length(listneurons)){
     list_scores_neurons = append(list_scores_neurons,matrix_scores_neurons[l])
@@ -85,23 +85,23 @@ find_scores_family = function(listneurons,computedens = FALSE,zeroscore = -100){
 #### find_neurons_family contains the list of families associated to the list of neurons given
 find_neurons_family = function(listneurons,save = FALSE, path="",computedens = FALSE){
   familiesof_listofneurons = c()
-  list_scores_neurons = find_scores_family(listneurons,save = FALSE, path="",computedens=FALSE)
+  list_scores_neurons = find_scores_family(listneurons, computedens=FALSE)
   for(i in seq_along(listneurons)){
     if(sum(is.na(list_scores_neurons[[i]])) != 137 & rev(sort(list_scores_neurons[[i]]))[1]>-12){
         familiesof_listofneurons = c(familiesof_listofneurons,names(which.max(list_scores_neurons[[i]])))
       }else{
         familiesof_listofneurons = c(familiesof_listofneurons,"no family for this neuron")
       }
-   
+
   }
   names(familiesof_listofneurons) = names(listneurons)
   return(familiesof_listofneurons)
 }
 
-### find the percentage of correct hits within the first nb highest scores 
+### find the percentage of correct hits within the first nb highest scores
 find_percentage_correct_hits = function(listneurons,nb = 3){
   Percents = c()
-  scorestouse = list_scores_neurons_cv_fun 
+  scorestouse = list_scores_neurons_cv_fun
   for(j in 1:nb){
   for(l in seq_along(scorestouse)){
       name_hit=names(scorestouse[[l]])[rev(order(scorestouse[[l]]))[1:j]]
@@ -118,7 +118,7 @@ find_percentage_correct_hits = function(listneurons,nb = 3){
 return(Percents)
 }
 
-### find the list of scores of all the neurons for the cross validation approach !! 
+### find the list of scores of all the neurons for the cross validation approach !!
 list_scores_neurons_cv_fun = function(listneurons = fc_neuron_typec, computedens = FALSE,zeroscore = -100 ){
   if (computedens == TRUE){
     voxel_dens_allneurons = voxel_dens(listneurons)
@@ -127,32 +127,32 @@ list_scores_neurons_cv_fun = function(listneurons = fc_neuron_typec, computedens
   list_scores_neurons_cv = list()
   for (k in seq_along(listneurons)){                                        ## for each neuron
     print(k)
-    neuron = listneurons[k]   
-    ### Find the neuron and take it out 
+    neuron = listneurons[k]
+    ### Find the neuron and take it out
     fc_neuron_typecb = listneurons[which(names(listneurons)!=names(neuron))]
     correct_familiesb = correct_families
     correct_familiesb[[neuron[[1]]]] = correct_families[[neuron[[1]]]][names(correct_families[[neuron[[1]]]])!=names(neuron)]
-    
+
     ### Process with the families
     probability_correct_families_b = probability_correct_families
-    indx = which(names(correct_familiesb)==neuron[[1]]) 
+    indx = which(names(correct_familiesb)==neuron[[1]])
     probability_correct_families_b[,indx]=length(correct_familiesb[[indx]])/length(fc_neuron_typecb)
-    
-    ### Process to compute the number of neuron in the family 
+
+    ### Process to compute the number of neuron in the family
     number_neurons_fromfam_insv_b = number_neurons_fromfam_insv
-    
+
     if(length(ncol(voxel_dens_allneurons[names(correct_familiesb[[indx]]),]!=0))==0){
       number_neurons_fromfam_insv_b[,indx] = sum(voxel_dens_allneurons[names(correct_familiesb[[indx]]),]!=0)
     }else{
       number_neurons_fromfam_insv_b[,indx] = colSums(voxel_dens_allneurons[names(correct_familiesb[[indx]]),]!=0)
     }
-    
+
     probability_sv_knowing_familyb = probability_sv_knowing_family
     probability_sv_knowing_familyb[,indx] = number_neurons_fromfam_insv_b[,indx]/length(correct_families[[indx]])
-    
-    
-    sv_neurons_b = names(voxel_dens_allneurons[names(neuron),voxel_dens_allneurons[names(neuron),]>0])    
-    
+
+
+    sv_neurons_b = names(voxel_dens_allneurons[names(neuron),voxel_dens_allneurons[names(neuron),]>0])
+
     Score =c()
     for(l in 1:length(correct_familiesb)){
       prob = probability_sv_knowing_familyb[sv_neurons_b,l]
@@ -170,21 +170,21 @@ list_scores_neurons_cv_fun = function(listneurons = fc_neuron_typec, computedens
     list_scores_neurons_cv = append(list_scores_neurons_cv,Score)
   }
   names(list_scores_neurons_cv) = names(fc_neuron_typec)
-  
+
   for(i in seq_along(list_scores_neurons_cv)){
     names(list_scores_neurons_cv[[i]])=names(correct_families)
   }
   return(list_scores_neurons_cv)
 }
 
-### Create the probability matrices 
+### Create the probability matrices
 ### The set of families should be of the form: list of families and in each list the list of neurons in this family. An example is the "correct_families"
 create_probab_families = function(setoffamilies){
-  probability_correct_families = matrix(0,nrow=1,ncol=length(setoffamilies)) 
+  probability_correct_families = matrix(0,nrow=1,ncol=length(setoffamilies))
   for (i in seq_along(setoffamilies)){
     allneu = sum(sapply(1:length(setoffamilies), function(n) length(setoffamilies[[n]])))
     probability_correct_families[1,i]= length(setoffamilies[[i]])/allneu
-  } 
+  }
 return(probability_correct_families)
 }
 
@@ -203,8 +203,8 @@ create_probab_sv_knowing_fam = function(setoffamilies,computedens=FALSE){
     }
   }
   # Filling up the matrix of probabilities for supervoxels knowing the family --------
-  ### We have to determine the probability of having sj knowing we are in the family i 
-  probability_sv_knowing_family = matrix(0,nrow=7065,ncol=length(setoffamilies)) 
+  ### We have to determine the probability of having sj knowing we are in the family i
+  probability_sv_knowing_family = matrix(0,nrow=7065,ncol=length(setoffamilies))
   for(l in seq_along(setoffamilies)){
     for (k in 1:7065){
       probability_sv_knowing_family[k,l] = number_neurons_fromfam_insv[k,l]/length(correct_families[[l]])

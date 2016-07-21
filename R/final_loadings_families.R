@@ -239,9 +239,13 @@ return(probability_correct_families)
 }
 
 
-#' Create probability matrix with supervoxels as rows and families as columns for a setoffamilies
+#' Create probability matrix with supervoxels as rows and families as columns
+#' for a setoffamilies
 #'
-#' @param setoffamilies
+#' @param setoffamilies EITHER a named list of families, with each item defining
+#'   containing a character vector of neurons within that family OR a neuronlist
+#'   containing neurons (FIXME - this needs to be better defined when
+#'   computedens=T)
 #' @param computedens
 #'
 #' @return

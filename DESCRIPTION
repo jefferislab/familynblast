@@ -10,3 +10,11 @@ License: GPL-3
 LazyData: TRUE
 URL: https://github.com/mdurande/familynblast
 BugReports: https://github.com/mdurande/familynblast/issues
+Depends:
+    nat,
+    flycircuit,
+    nat.nblast
+Imports:
+    Matrix,
+    nat.flybrains
+RoxygenNote: 5.0.1

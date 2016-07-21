@@ -1,40 +1,29 @@
-library("nat.flybrains")
-library(nat)
-library(flycircuit)
-library(nat.nblast)
-
-### Pour trouver jet.colors il faut regarder la défintion dans colorampalette
-#----------------------------------
-# fc_download_data('http://flybrain.mrc-lmb.cam.ac.uk/si/nblast/flycircuit/allbyallblastcv4.5.ff',
-#                  type='ff')
-# # set that as default all by all score matrix
-# options('flycircuit.scoremat'="allbyallblastcv4.5.ff")
-# # load neuron list
-# # the actual neuron data will be downloaded and cached to your machine on demand
-# dps<-read.neuronlistfh("http://flybrain.mrc-lmb.cam.ac.uk/si/nblast/flycircuit/dpscanon.rds",
-#                        localdir=getOption('flycircuit.datadir'))
-# remotesync(dps,download.missing=T)
-
-# set default neuronlist
-options('nat.default.neuronlist'='dps')
-
-#' computes the number of points from a setofneurons in each supervoxel
+#' Computes the number of points from a setofneurons in each supervoxel
 #'
-#' @param setofneurons
+#' @param setofneurons \code{\link[nat]{neuronlist}} object containing set
+#' @param svoxels A \code{\link[nat]{im3d}} object containing defining a set of
+#'   supervoxels. Defaults to \code{\link{svoxels.fcwb}}.
 #'
-#' @return
+#' @param svoxels.table A \code{\link{table}} indicating how many pixels are
+#'   present in each supervoxel. Defaults to \code{\link{svoxels.fcwb.table}}.
+#'
+#' @return A \code{matrix} with length(setofneurons) rows and
+#'   \code{length(svoxels.table)} columns.
 #' @export
-#' @importFrom nat.flybrains FCWB
-voxel_dens= function(setofneurons){
-  svoxel.output.neu = matrix(0, nrow = length(setofneurons), ncol = length(svoxels.fcwb.table))
-  colnames(svoxel.output.neu)=names(svoxels.fcwb.table)
+#' @importFrom nat xyzmatrix coord2ind as.im3d
+#' @examples
+#' # convert a sample set of neurons to supervoxel representation
+#' kcdens=voxel_dens(nat::kcs20)
+voxel_dens= function(setofneurons, svoxels=svoxels.fcwb, svoxels.table=svoxels.fcwb.table){
+  svoxel.output.neu = matrix(0, nrow = length(setofneurons), ncol = length(svoxels.table))
+  colnames(svoxel.output.neu)=names(svoxels.table)
   rownames(svoxel.output.neu)=names(setofneurons)
   for(n in names(setofneurons)) {
     message("working on neuron:", n)
     # find 1d indices of 3D coords into FCWB space
-    idxs=coord2ind(xyzmatrix(setofneurons[[n]]), imdims = as.im3d(FCWB))
+    idxs=coord2ind(xyzmatrix(setofneurons[[n]]), imdims = svoxels)
     # then get label values for those coords
-    svoxel.ids=svoxels.fcwb[idxs]
+    svoxel.ids=svoxels[idxs]
     # compute density i.e. number of points in each domain
     tsvoxel.ids=table(svoxel.ids)
     svoxel.output.neu[n,names(tsvoxel.ids)]=tsvoxel.ids

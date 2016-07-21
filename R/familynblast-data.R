@@ -33,3 +33,13 @@ NULL
 #' @name svoxels.fcwb.table
 #' @docType data
 NULL
+
+#' Supervoxel label field in FCWB space
+#'
+#' This was originally supplied by Kristin Branson in the JFRC2 template space
+#' and then bridged to the FCWB space containing the flycircuit neurons. It
+#' contains 7065 non-zero levels defining supervoxels covering nc82 positive
+#' regions in the brain (i.e. neuropil).
+#' @name svoxels.fcwb
+#' @docType data
+NULL

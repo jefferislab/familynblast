@@ -7,6 +7,9 @@
 find_scores_family(listneurons, computedens = FALSE, zeroscore = -100)
 }
 \arguments{
+\item{computedens}{Whether or not to compute desnsities (which would be
+necessary for non-flycircuit neurons)}
+
 \item{zeroscore}{Log score to use when a neuron occupies a supervoxel that is
 not overlapped by any family member.}
 }

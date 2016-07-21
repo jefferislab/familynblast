@@ -41,7 +41,8 @@ voxel_dens = function(setofneurons,
 #'
 #' @param listneurons
 #' @param familyind
-#' @param computedens
+#' @param computedens Whether or not to compute densities (which would be
+#'   necessary for non-flycircuit neurons)
 #' @param zeroscore Log score to use when a neuron occupies a supervoxel that is
 #'   not overlapped by any family member.
 #'
@@ -246,8 +247,7 @@ return(probability_correct_families)
 #'   containing a character vector of neurons within that family OR a neuronlist
 #'   containing neurons (FIXME - this needs to be better defined when
 #'   computedens=T)
-#' @param computedens
-#'
+#' @inheritParams neurons_against_fam
 #' @return
 #' @export
 #'

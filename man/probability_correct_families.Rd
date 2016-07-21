@@ -3,8 +3,14 @@
 \docType{data}
 \name{probability_correct_families}
 \alias{probability_correct_families}
-\title{FIXME}
+\title{The prior probabilities for all the families in correct_families}
 \description{
-FIXME
+The prior probabilities for all the families in correct_families
+}
+\examples{
+hist(probability_correct_families)
+}
+\seealso{
+\code{\link{correct_families}}
 }
 

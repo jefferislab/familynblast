@@ -9,9 +9,12 @@ NULL
 #' @docType data
 NULL
 
-#' FIXME
+#' The prior probabilities for all the families in correct_families
 #' @name probability_correct_families
+#' @seealso \code{\link{correct_families}}
 #' @docType data
+#' @examples
+#' hist(probability_correct_families)
 NULL
 
 #' The numbers of neurons crossing each supervoxel, matrix of 7065

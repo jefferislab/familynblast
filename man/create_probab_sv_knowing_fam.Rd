@@ -2,14 +2,22 @@
 % Please edit documentation in R/final_loadings_families.R
 \name{create_probab_sv_knowing_fam}
 \alias{create_probab_sv_knowing_fam}
-\title{Create probability matrix with supervoxels as rows and families as columns for a setoffamilies}
+\title{Create probability matrix with supervoxels as rows and families as columns
+for a setoffamilies}
 \usage{
 create_probab_sv_knowing_fam(setoffamilies, computedens = FALSE)
 }
 \arguments{
-\item{computedens}{}
+\item{setoffamilies}{EITHER a named list of families, with each item defining
+containing a character vector of neurons within that family OR a neuronlist
+containing neurons (FIXME - this needs to be better defined when
+computedens=T)}
+
+\item{computedens}{Whether or not to compute desnsities (which would be
+necessary for non-flycircuit neurons)}
 }
 \description{
-Create probability matrix with supervoxels as rows and families as columns for a setoffamilies
+Create probability matrix with supervoxels as rows and families as columns
+for a setoffamilies
 }
 

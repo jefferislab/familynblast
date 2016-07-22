@@ -2,21 +2,32 @@
 % Please edit documentation in R/final_loadings_subfamilies.R
 \name{compute_score_subfamily}
 \alias{compute_score_subfamily}
-\title{compute_score_subfamily, computes all the scores of the list of neurons against theneurons of the subfamilie}
+\title{compute_score_subfamily, computes all the scores of the list of neurons
+against theneurons of the subfamilie}
 \usage{
-compute_score_subfamily(listofneurons, zeronbl = -9, zerosv = -100,
+compute_score_subfamily(listofneurons, zeronbl = -0.9, zerosv = -100,
   subfamilies = kcsm)
 }
 \arguments{
-\item{listofneurons}{A list of neurons to test, list of neurons types named by flycircuit identifiers}
+\item{listofneurons}{A list of neurons to test, list of neurons types named
+by flycircuit identifiers}
 
 \item{zeronbl}{The value to penalize for zero in nblast}
 
 \item{zerosv}{The value to penalize for zero in supervoxels}
 
-\item{subfamilies}{A list of neurons from the training set, neurons type named by flycircuit identifiers}
+\item{subfamilies}{A list of neurons from the training set, neurons type
+named by flycircuit identifiers}
+}
+\value{
+returns a matrix with in rows the neurons and in columns the
+  subfamilies. We have the scores of the neurons against the subfamilies
 }
 \description{
-compute_score_subfamily, computes all the scores of the list of neurons against theneurons of the subfamilie
+compute_score_subfamily, computes all the scores of the list of neurons
+against theneurons of the subfamilie
+}
+\examples{
+compute_score_subfamily(kcs[25:35])
 }
 

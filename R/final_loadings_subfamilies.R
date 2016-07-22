@@ -17,18 +17,23 @@
 
 
 
-#' compute_score_subfamily, computes all the scores of the list of neurons against theneurons of the subfamilie
+#' compute_score_subfamily, computes all the scores of the list of neurons
+#' against theneurons of the subfamilie
 #'
-#' @param listofneurons A list of neurons to test, list of neurons types named by flycircuit identifiers
+#' @param listofneurons A list of neurons to test, list of neurons types named
+#'   by flycircuit identifiers
 #' @param zeronbl The value to penalize for zero in nblast
 #' @param zerosv The value to penalize for zero in supervoxels
-#' @param subfamilies A list of neurons from the training set, neurons type named by flycircuit identifiers
+#' @param subfamilies A list of neurons from the training set, neurons type
+#'   named by flycircuit identifiers
 #'
-#' @return
+#' @return returns a matrix with in rows the neurons and in columns the
+#'   subfamilies. We have the scores of the neurons against the subfamilies
 #' @export
 #'
 #' @examples
-compute_score_subfamily = function(listofneurons,zeronbl = -9, zerosv = -100,subfamilies = kcsm){
+#' compute_score_subfamily(kcs[25:35])
+compute_score_subfamily = function(listofneurons,zeronbl = -0.9, zerosv = -100,subfamilies = kcsm){
   scores_neurons_families_nblast = matrix(0,nrow = length(listofneurons), ncol = length(unique(kcsm)))
   rownames(scores_neurons_families_nblast) = names(listofneurons)
   colnames(scores_neurons_families_nblast) = unique(subfamilies)
@@ -62,7 +67,7 @@ compute_score_subfamily = function(listofneurons,zeronbl = -9, zerosv = -100,sub
       for(k in names(names3)){          ## Part on nblast
         #browser()
         if (probabilities_nblastscores_kcs[k,l,findInterval(scores_neuron[k],scorecut)]==0){
-          scores_neurons_families_nblast[names(listofneurons)[i],l] =  scores_neurons_families_nblast[names(listofneurons)[i],l] -0.9
+          scores_neurons_families_nblast[names(listofneurons)[i],l] =  scores_neurons_families_nblast[names(listofneurons)[i],l] +zeronbl
         }else{
           scores_neurons_families_nblast[names(listofneurons)[i],l] =  scores_neurons_families_nblast[names(listofneurons)[i],l] +
             log(probabilities_nblastscores_kcs[k,l,
@@ -76,7 +81,7 @@ compute_score_subfamily = function(listofneurons,zeronbl = -9, zerosv = -100,sub
       zeros = sum(prob==0)
       prob2 = prob[which(prob!=0)]
       score_f = sum(log(prob2))
-      score_f = score_f -100*zeros
+      score_f = score_f+zerosv*zeros
       scores_neurons_families_nblast[names(listofneurons)[i],l] =  scores_neurons_families_nblast[names(listofneurons)[i],l] + score_f/length(sv_neuron)+ log(probabily_subfamily_kcs[l])
     }
   }

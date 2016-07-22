@@ -64,6 +64,13 @@ voxel_dens = function(setofneurons,
 #' kcfams=grep("Kenyon", names(correct_families), value = T)
 #' # compare all neurons against all families
 #' res=sapply(kcfams, function(fam) neurons_against_fam(kcs20, fam))
+#' # make a prediction using the class of max score
+#' pred=colnames(res)[apply(res,1, which.max)]
+#' maxscore=apply(res, 1,max)
+#' # compare with manually defined type, NB there is no family definition
+#' # for alpha'/beta' KCs at the moment so these are predicted as a/B
+#' # but have slightly lower scores than the real a/B neurons
+#' cbind(kcs20[,c("Name","type")], pred, max=maxscore)
 neurons_against_fam  = function(listneurons,familyind, computedens = FALSE, zeroscore = -100){
   if (is.neuronlist(listneurons)){
     voxel_dens_allneurons = voxel_dens(listneurons)

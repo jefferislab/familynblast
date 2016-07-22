@@ -9,6 +9,10 @@ neurons_against_fam(listneurons, familyind, computedens = FALSE,
   zeroscore = -100)
 }
 \arguments{
+\item{listneurons}{is the list of neurons name we want to find the family}
+
+\item{familyind}{is the index of the family we want to test the list of neurons against}
+
 \item{computedens}{Whether or not to compute densities (which would be
 necessary for non-flycircuit neurons)}
 

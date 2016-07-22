@@ -32,7 +32,7 @@ NULL
 #' @docType data
 NULL
 
-#' FIXME
+#' A table that contains the number of voxels in the supervoxels
 #' @name svoxels.fcwb.table
 #' @docType data
 NULL

@@ -39,8 +39,8 @@ voxel_dens = function(setofneurons,
 #' Computing the score of one neuron against a particular family, given the
 #' index of the name of the family in correct_families
 #'
-#' @param listneurons
-#' @param familyind
+#' @param listneurons is the list of neurons names we want to find the family
+#' @param familyind is the index of the family we want to test the list of neurons against
 #' @param computedens Whether or not to compute densities (which would be
 #'   necessary for non-flycircuit neurons)
 #' @param zeroscore Log score to use when a neuron occupies a supervoxel that is
@@ -102,16 +102,13 @@ find_scores_family = function(listneurons, computedens = FALSE, zeroscore = -100
 #' Predict the families for a list of neurons
 #'
 #' @details This will return
-#'
-#' @param save
-#' @param path
 #' @inheritParams neurons_against_fam
 #'
 #' @return
 #' @export
 #'
 #' @family find-family
-find_neurons_family = function(listneurons, save = FALSE, path="", computedens = FALSE){
+find_neurons_family = function(listneurons,computedens = FALSE){
   familiesof_listofneurons = c()
   list_scores_neurons = find_scores_family(listneurons, computedens=FALSE)
   for(i in seq_along(listneurons)){
@@ -129,10 +126,11 @@ find_neurons_family = function(listneurons, save = FALSE, path="", computedens =
 
 #' Find the percentage of correct hits within the nth highest scores
 #'
-#' @param listneurons FIXME
+#' @param listneurons listneurons is the list of neurons names we want to find the family
 #' @param nb The number of high scores to consider
 #'
-#' @return FIXME
+#' @return The percentage of correct labelling when we keep the first top score,
+#' the top two scores, top nb scores.
 #' @export
 find_percentage_correct_hits = function(listneurons, nb = 3){
   Percents = c()
@@ -225,7 +223,7 @@ list_scores_neurons_cv_fun = function(listneurons = familynblast::fc_neuron_type
 #' the list of neurons in this family. An example is
 #' \code{\link{correct_families}}.
 #'
-#' @param setoffamilies
+#' @param setoffamilies is a list of neurons from the different families.
 #'
 #' @return
 #' @export

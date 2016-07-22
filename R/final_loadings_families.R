@@ -39,8 +39,11 @@ voxel_dens = function(setofneurons,
 #' Computing the score of one neuron against a particular family, given the
 #' index of the name of the family in correct_families
 #'
-#' @param listneurons is the list of neurons names we want to find the family
-#' @param familyind is the index of the family we want to test the list of neurons against
+#' @param listneurons Either names of flycircuit neurons or a
+#'   \code{\link[nat]{neuronlist}} object containing actual neurons (which will
+#'   be passed to \code{\link{voxel_dens}}).
+#' @param familyind Index of the family we want to test neurons against (either
+#'   numeric or character vector, see examples)
 #' @param computedens Whether or not to compute densities (which would be
 #'   necessary for non-flycircuit neurons)
 #' @param zeroscore Log score to use when a neuron occupies a supervoxel that is
@@ -48,19 +51,38 @@ voxel_dens = function(setofneurons,
 #'
 #' @return
 #' @export
+#' @importFrom nat is.neuronlist
 #' @family find-family
 #'
 #' @examples
+#' # One neuron against a specific family
+#' neurons_against_fam(kcs20[1], "gamma Kenyon cell")
+#' # multiple neurons against a specific family
+#' neurons_against_fam(kcs20, "gamma Kenyon cell")
+#'
+#' # find the KC families that we know about
+#' kcfams=grep("Kenyon", names(correct_families), value = T)
+#' # compare all neurons against all families
+#' res=sapply(kcfams, function(fam) neurons_against_fam(kcs20, fam))
 neurons_against_fam  = function(listneurons,familyind, computedens = FALSE, zeroscore = -100){
-  if (computedens == TRUE){
+  if (is.neuronlist(listneurons)){
     voxel_dens_allneurons = voxel_dens(listneurons)
+    # drop the 0 level (i.e. not in a well-defined supervoxel)
+    if("0" %in% colnames(voxel_dens_allneurons))
+      voxel_dens_allneurons=voxel_dens_allneurons[,-1, drop=FALSE]
+    listneurons=names(listneurons)
     rownames(voxel_dens_allneurons) = listneurons
+  } else {
+    voxel_dens_allneurons=familynblast::voxel_dens_allneurons
+    # if the character vector of input neurons is named then we assume that we
+    # want those names not the input elements
+    if(!is.null(names(listneurons))) listneurons=names(listneurons)
   }
   Score =c()
   for (k in seq_along(listneurons)){                                        ## for each neuron
     print(k)
     neuron = listneurons[k]
-    sv_neurons = names(voxel_dens_allneurons[names(neuron),voxel_dens_allneurons[names(neuron),]>0])
+    sv_neurons = names(voxel_dens_allneurons[neuron,voxel_dens_allneurons[neuron,]>0])
     prob = familynblast::probability_sv_knowing_family[sv_neurons,familyind]
     zeros = sum(prob==0)
     prob2 = prob[which(prob!=0)]
@@ -187,7 +209,7 @@ list_scores_neurons_cv_fun = function(listneurons = familynblast::fc_neuron_type
       number_neurons_fromfam_insv_b[,indx] = colSums(voxel_dens_allneurons[names(correct_familiesb[[indx]]),]!=0)
     }
 
-    probability_sv_knowing_familyb = probability_sv_knowing_family
+    probability_sv_knowing_familyb = familynblast::probability_sv_knowing_family
     probability_sv_knowing_familyb[,indx] = number_neurons_fromfam_insv_b[,indx]/length(familynblast::correct_families[[indx]])
 
 

@@ -9,9 +9,12 @@ neurons_against_fam(listneurons, familyind, computedens = FALSE,
   zeroscore = -100)
 }
 \arguments{
-\item{listneurons}{is the list of neurons names we want to find the family}
+\item{listneurons}{Either names of flycircuit neurons or a
+\code{\link[nat]{neuronlist}} object containing actual neurons (which will
+be passed to \code{\link{voxel_dens}}).}
 
-\item{familyind}{is the index of the family we want to test the list of neurons against}
+\item{familyind}{Index of the family we want to test neurons against (either
+numeric or character vector, see examples)}
 
 \item{computedens}{Whether or not to compute densities (which would be
 necessary for non-flycircuit neurons)}
@@ -22,6 +25,17 @@ not overlapped by any family member.}
 \description{
 Computing the score of one neuron against a particular family, given the
 index of the name of the family in correct_families
+}
+\examples{
+# One neuron against a specific family
+neurons_against_fam(kcs20[1], "gamma Kenyon cell")
+# multiple neurons against a specific family
+neurons_against_fam(kcs20, "gamma Kenyon cell")
+
+# find the KC families that we know about
+kcfams=grep("Kenyon", names(correct_families), value = T)
+# compare all neurons against all families
+res=sapply(kcfams, function(fam) neurons_against_fam(kcs20, fam))
 }
 \seealso{
 Other find.family: \code{\link{find_neurons_family}},

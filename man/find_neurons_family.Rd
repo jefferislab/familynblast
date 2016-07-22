@@ -7,7 +7,9 @@
 find_neurons_family(listneurons, computedens = FALSE)
 }
 \arguments{
-\item{listneurons}{is the list of neurons names we want to find the family}
+\item{listneurons}{Either names of flycircuit neurons or a
+\code{\link[nat]{neuronlist}} object containing actual neurons (which will
+be passed to \code{\link{voxel_dens}}).}
 
 \item{computedens}{Whether or not to compute densities (which would be
 necessary for non-flycircuit neurons)}

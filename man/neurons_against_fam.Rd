@@ -9,7 +9,7 @@ neurons_against_fam(listneurons, familyind, computedens = FALSE,
   zeroscore = -100)
 }
 \arguments{
-\item{computedens}{Whether or not to compute desnsities (which would be
+\item{computedens}{Whether or not to compute densities (which would be
 necessary for non-flycircuit neurons)}
 
 \item{zeroscore}{Log score to use when a neuron occupies a supervoxel that is

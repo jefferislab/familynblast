@@ -8,7 +8,7 @@ find_neurons_family(listneurons, save = FALSE, path = "",
   computedens = FALSE)
 }
 \arguments{
-\item{computedens}{Whether or not to compute desnsities (which would be
+\item{computedens}{Whether or not to compute densities (which would be
 necessary for non-flycircuit neurons)}
 }
 \description{

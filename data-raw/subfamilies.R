@@ -1,9 +1,11 @@
-load(file="/Volumes/JData5/JPeople/Melina/Branson/data/probabilities_nblastscores_kcs") ### Contains the array that has, the families in columns,
+### Contains the array that has, the families in columns,
+load(file="/Volumes/JData5/JPeople/Melina/Branson/data/probabilities_nblastscores_kcs")
 #the neurons in lines and in depth the value of the score
 load(file="/Volumes/JData5/JPeople/Melina/Branson/data/probability_sv_knowing_subfamily")
-rownames(probability_sv_knowing_subfamily) = colnames(voxel_dens_allneurons)
+rownames(probability_sv_knowing_subfamily) = colnames(voxel_dens_allneurons)[-1]
 load("/Volumes/JData5/JPeople/Melina/Branson/data/probabily_subfamily_kcs")
 # test_set_kenyoncells ----------------------------------------------------
+library(flycircuit)
 kcs0m=fc_neuron_type(regex="Kenyon")
 kc1m = kcs0m[which(kcs0m=="gamma Kenyon cell")]
 set.seed(32)
@@ -24,10 +26,9 @@ kc6m = kcs0m[which(kcs0m=="gamma dorsal Kenyon cell")]
 set.seed(32)
 kc6m=sample(kc6m,30)
 kcslistm = list(kc1m,kc2m,kc3m,kc4m,kc5m,kc6m)
-kcsm = unlist(list(kc1m,kc2m,kc3m,kc4m,kc5m,kc6m))
-names_kcsm = list(names(kc1m),names(kc2m),names(kc3m),names(kc4m),names(kc5m),names(kc6m))
-names(names_kcsm) = c("gamma Kenyon cell","alpha'/beta' Kenyon cell","alpha/beta posterior Kenyon cell","alpha/beta core Kenyon cell","alpha/beta surface Kenyon cell",
-                      "gamma dorsal Kenyon cell")
+kcsm = unlist(kcslistm)
+names_kcsm=lapply(kcslistm, names)
+names(names_kcsm) = sapply(kcslistm, unique)
 
 # Rest of the data --------------------------------------------------------
 
@@ -52,27 +53,23 @@ kc6 = kcs0[which(kcs0=="gamma dorsal Kenyon cell")]
 #set.seed(32)
 #kc6=sample(kc6,30)
 kcslist = list(kc1,kc2,kc3,kc4,kc5,kc6)
-kcs = unlist(list(kc1,kc2,kc3,kc4,kc5,kc6))
-names_kcs = list(names(kc1),names(kc2),names(kc3),names(kc4),names(kc5),names(kc6))
-names(names_kcs) = c("gamma Kenyon cell","alpha'/beta' Kenyon cell","alpha/beta posterior Kenyon cell","alpha/beta core Kenyon cell","alpha/beta surface Kenyon cell",
-                     "gamma dorsal Kenyon cell")
-
-# Load dps object with all flycircuit neurons
-# see https://gist.github.com/jefferis/bbaf5d53353b3944c090
-library(devtools)
-devtools::source_gist("bbaf5d53353b3944c090")
-### dotprops list
-kcs.dps = dps[names(kcs)]
-
+kcs = unlist(kcslist)
+names_kcs = lapply(kcslist, names)
+names(names_kcs) = sapply(kcslist, unique)
 Lab = c("G","ApBp","ABp","ABc","ABs","Gd")
 names(Lab) = names(names_kcsm)
 
 
+kcs.subfam.training=kcsm
+kcs.subfam.test=kcs
+use_data(kcs.subfam.training)
+use_data(kcs.subfam.test)
 
-use_data(kcsm)
-use_data(kcs)
-use_data(kcs.dps)
+# Load dps object with all flycircuit neurons
+# see https://gist.github.com/jefferis/bbaf5d53353b3944c090
 
+library(devtools)
+devtools::source_gist("bbaf5d53353b3944c090")
 
 # compute priors
 probabilities_nblastscores_kcs = prior_prob_nblastscores()
@@ -80,7 +77,6 @@ use_data(probabilities_nblastscores_kcs)
 
 probability_sv_knowing_subfamily =prior_prob_svscores()
 use_data(probability_sv_knowing_subfamily)
-
 
 probabily_subfamily_kcs = prior_prob_subfam()
 use_data(probabily_subfamily_kcs)

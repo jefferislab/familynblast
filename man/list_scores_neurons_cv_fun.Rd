@@ -8,7 +8,9 @@ list_scores_neurons_cv_fun(listneurons = familynblast::fc_neuron_typec,
   computedens = FALSE, zeroscore = -100)
 }
 \arguments{
-\item{computedens}{Whether or not to compute desnsities (which would be
+\item{listneurons}{is the list of neurons name we want to find the family}
+
+\item{computedens}{Whether or not to compute densities (which would be
 necessary for non-flycircuit neurons)}
 
 \item{zeroscore}{Log score to use when a neuron occupies a supervoxel that is

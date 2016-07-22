@@ -13,7 +13,7 @@ containing a character vector of neurons within that family OR a neuronlist
 containing neurons (FIXME - this needs to be better defined when
 computedens=T)}
 
-\item{computedens}{Whether or not to compute desnsities (which would be
+\item{computedens}{Whether or not to compute densities (which would be
 necessary for non-flycircuit neurons)}
 }
 \description{

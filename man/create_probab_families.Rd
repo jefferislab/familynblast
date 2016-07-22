@@ -7,7 +7,7 @@
 create_probab_families(setoffamilies)
 }
 \arguments{
-\item{setoffamilies}{}
+\item{setoffamilies}{is a list of neurons from the different families.}
 }
 \description{
 The set of families should be of the form: list of families and in each list

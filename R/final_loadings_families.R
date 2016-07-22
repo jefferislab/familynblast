@@ -61,7 +61,7 @@ neurons_against_fam  = function(listneurons,familyind, computedens = FALSE, zero
     print(k)
     neuron = listneurons[k]
     sv_neurons = names(voxel_dens_allneurons[names(neuron),voxel_dens_allneurons[names(neuron),]>0])
-    prob = probability_sv_knowing_family[sv_neurons,familyind]
+    prob = familynblast::probability_sv_knowing_family[sv_neurons,familyind]
     zeros = sum(prob==0)
     prob2 = prob[which(prob!=0)]
     score_f = sum(log(prob2))

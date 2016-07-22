@@ -11,9 +11,12 @@ probability_sv_knowing_family=round(probability_sv_knowing_family,3)
 rownames(probability_sv_knowing_family) = names(svoxels.fcwb.table)[-1]
 colnames(probability_sv_knowing_family)=names(correct_families)
 
+probability_correct_families=c(probability_correct_families)
+names(probability_correct_families)=names(correct_families)
+
 library(devtools)
 use_data(probability_sv_knowing_family, overwrite = T)
 use_data(number_neurons_fromfam_insv)
-use_data(probability_correct_families)
+use_data(probability_correct_families, overwrite = T)
 use_data(correct_families)
 use_data(fc_neuron_typec)

@@ -8,9 +8,26 @@
 ##### the subfamily within the family
 
 ## Just to test i create the list of the subfamilies :
-kcsm # is a list of the subfamilies and in it, the neurons from the data set of the subfamily.
+#kcsm # is a list of the subfamilies and in it, the neurons from the data set of the subfamily.
 # subfamilies in our examples will just be names_kcsm
 # The pre-computed data that could be add as arguments/ re-computed if necessary are probabilities_nblastscores_kcs and probabily_subfamily_kcs
+
+
+
+
+
+
+#' compute_score_subfamily, computes all the scores of the list of neurons against theneurons of the subfamilie
+#'
+#' @param listofneurons A list of neurons to test, list of neurons types named by flycircuit identifiers
+#' @param zeronbl The value to penalize for zero in nblast
+#' @param zerosv The value to penalize for zero in supervoxels
+#' @param subfamilies A list of neurons from the training set, neurons type named by flycircuit identifiers
+#'
+#' @return
+#' @export
+#'
+#' @examples
 compute_score_subfamily = function(listofneurons,zeronbl = -9, zerosv = -100,subfamilies = kcsm){
   scores_neurons_families_nblast = matrix(0,nrow = length(listofneurons), ncol = length(unique(kcsm)))
   rownames(scores_neurons_families_nblast) = names(listofneurons)
@@ -66,6 +83,15 @@ compute_score_subfamily = function(listofneurons,zeronbl = -9, zerosv = -100,sub
   return(scores_neurons_families_nblast)
 }
 
+#' Compute the prior probabilities of the nblast scores
+#'
+#' @param subfamilies list of neurons from the training set, neurons type named by flycircuit identifiers
+#' @param bins bins to cut the nblast scores
+#' @return
+#' @export
+#'
+#' @examples
+
 prior_prob_nblastscores = function(subfamilies = kcsm, bins=seq(-1,1,0.2)){
   probabilities_nblastscores = array(0,dim=c(length(subfamilies),length(unique(subfamilies)),length(bins)))
   dimnames(probabilities_nblastscores) = list(names(subfamilies),unique(subfamilies),bins)
@@ -87,6 +113,16 @@ prior_prob_nblastscores = function(subfamilies = kcsm, bins=seq(-1,1,0.2)){
   return(probabilities_nblastscores)
 }
 
+
+
+#' Compute the prior probabilities of the subfamilies
+#'
+#' @param subfamiliesall list of neurons neurons type named by flycircuit identifiers, all neurons from the subfamilies
+#'
+#' @return
+#' @export
+#'
+#' @examples
 ## subfamiliesall should be the list of all the neurons in
 prior_prob_subfam = function(subfamiliesall = kcs){
   probabily_subfamily = c()
@@ -98,6 +134,15 @@ prior_prob_subfam = function(subfamiliesall = kcs){
   return(probabily_subfamily)
 }
 
+#' Compute the prior probabilities of the supervoxels
+#'
+#' @param subfamilies list of neurons from the training set, neurons type named by flycircuit identifiers
+#' @param computedens if neurons are not from flycircuit dataset
+#'
+#' @return
+#' @export
+#'
+#' @examples
 prior_prob_svscores = function(subfamilies = kcsm,computedens = FALSE){
   if (computedens == TRUE){
     voxel_dens_allneurons = voxel_dens(names(subfamilies))

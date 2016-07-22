@@ -7,7 +7,7 @@
 find_scores_family(listneurons, computedens = FALSE, zeroscore = -100)
 }
 \arguments{
-\item{listneurons}{is the list of neurons name we want to find the family}
+\item{listneurons}{is the list of neurons names we want to find the family}
 
 \item{computedens}{Whether or not to compute densities (which would be
 necessary for non-flycircuit neurons)}

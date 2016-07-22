@@ -3,8 +3,8 @@
 \docType{data}
 \name{svoxels.fcwb.table}
 \alias{svoxels.fcwb.table}
-\title{FIXME}
+\title{A table that contains the number of voxels in the supervoxels}
 \description{
-FIXME
+A table that contains the number of voxels in the supervoxels
 }
 

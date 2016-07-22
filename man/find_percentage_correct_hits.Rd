@@ -7,12 +7,13 @@
 find_percentage_correct_hits(listneurons, nb = 3)
 }
 \arguments{
-\item{listneurons}{FIXME}
+\item{listneurons}{listneurons is the list of neurons names we want to find the family}
 
 \item{nb}{The number of high scores to consider}
 }
 \value{
-FIXME
+The percentage of correct labelling when we keep the first top score,
+the top two scores, top nb scores.
 }
 \description{
 Find the percentage of correct hits within the nth highest scores

@@ -8,7 +8,7 @@
 ##### the subfamily within the family
 
 ## Just to test i create the list of the subfamilies :
-#kcsm # is a list of the subfamilies and in it, the neurons from the data set of the subfamily.
+#kcs.subfam.training # is a list of the subfamilies and in it, the neurons from the data set of the subfamily.
 # subfamilies in our examples will just be names_kcsm
 # The pre-computed data that could be add as arguments/ re-computed if necessary are probabilities_nblastscores_kcs and probabily_subfamily_kcs
 
@@ -94,8 +94,8 @@ compute_score_subfamily = function(listofneurons,zeronbl = -0.9, zerosv = -100,s
 #' @export
 #'
 #' @examples
-
-prior_prob_nblastscores = function(subfamilies = kcsm, bins=seq(-1,1,0.2)){
+#' @importFrom nat.nblast nblast
+prior_prob_nblastscores = function(subfamilies = kcs.subfam.training, bins=seq(-1,1,0.2)){
   probabilities_nblastscores = array(0,dim=c(length(subfamilies),length(unique(subfamilies)),length(bins)))
   dimnames(probabilities_nblastscores) = list(names(subfamilies),unique(subfamilies),bins)
   for(i in seq_along(subfamilies)){              ## For every neuron of the 1080 that will make the set
@@ -107,7 +107,7 @@ prior_prob_nblastscores = function(subfamilies = kcsm, bins=seq(-1,1,0.2)){
       names3 = subfamilies[names2]
       names3 = names3[which(names3 ==  unique(subfamilies)[j])]
       for(l in seq_along(names3)){
-        scoren = nblast(neuron,dps[names(names3[l])])/(max(smat.fcwb)*nrow(neuron[[1]]$points))   ## Score between the neuron and the neuron l of the family j, normalized
+        scoren = nblast(neuron,dps[names(names3[l])])/(max(nat.nblast::smat.fcwb)*nrow(neuron[[1]]$points))   ## Score between the neuron and the neuron l of the family j, normalized
         probabilities_nblastscores[i,j,findInterval(scoren,bins)] = probabilities_nblastscores[i,j,findInterval(scoren,bins)]+1
       }
     }
@@ -127,7 +127,7 @@ prior_prob_nblastscores = function(subfamilies = kcsm, bins=seq(-1,1,0.2)){
 #'
 #' @examples
 ## subfamiliesall should be the list of all the neurons in
-prior_prob_subfam = function(subfamiliesall = kcs){
+prior_prob_subfam = function(subfamiliesall = kcs.subfam.test){
   probabily_subfamily = c()
   for(i in unique(subfamiliesall)){
     print(i)
@@ -146,7 +146,7 @@ prior_prob_subfam = function(subfamiliesall = kcs){
 #' @export
 #'
 #' @examples
-prior_prob_svscores = function(subfamilies = kcsm,computedens = FALSE){
+prior_prob_svscores = function(subfamilies = kcs.subfam.training,computedens = FALSE){
   if (computedens == TRUE){
     voxel_dens_allneurons = voxel_dens(names(subfamilies))
     rownames(voxel_dens_allneurons) = names(subfamilies)

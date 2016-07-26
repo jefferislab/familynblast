@@ -56,3 +56,33 @@ NULL
 #' @name voxel_dens_allneurons
 #' @docType data
 NULL
+
+#' Selection of flycircuit Kenyon cells used for subfamily model
+#'
+#' @description \code{kcs.subfam.training} consists of 180 neurons in 6
+#'   sub-families, while \code{kcs.subfam.test} are the remaining
+#'   \code{flycircuit} KCs.
+#'
+#'
+#' @name kcs.subfam.training
+#' @aliases kcs.subfam.test
+#' @docType data
+NULL
+
+#' Probability matrices for flycircuit Kenyon cell subfamily model
+#'
+#' @description \code{probability_sv_knowing_subfamily} is a 7065 x 6 matrix
+#'   describing the probability of each supervoxel being crossed by one of the
+#'   neurons in the \code{\link{kcs.subfam.training}} training set. Computed by
+#'   \code{\link{prior_prob_svscores}}.
+#'
+#'   \code{probability_subfamily_kcs} contains the prior probability for each of
+#'   the 6 subfamilies in the complete flycircuit dataset. Computed by
+#'   \code{\link{prior_prob_subfam}}.
+#'
+#' @seealso \code{\link{prior_prob_svscores}}, \code{\link{prior_prob_subfam}}
+#' @name probability_sv_knowing_subfamily
+#' @aliases probability_subfamily_kcs
+#' @docType data
+NULL
+

@@ -30,27 +30,22 @@
 #' @return returns a matrix with in rows the neurons and in columns the
 #'   subfamilies. We have the scores of the neurons against the subfamilies
 #' @export
-#'
+#' @importFrom nat.nblast nblast
 #' @examples
 #' compute_score_subfamily(kcs[25:35])
-compute_score_subfamily = function(listofneurons,zeronbl = -0.9, zerosv = -100,subfamilies = kcsm){
-  scores_neurons_families_nblast = matrix(0,nrow = length(listofneurons), ncol = length(unique(kcsm)))
+compute_score_subfamily = function(listofneurons,zeronbl = -0.9, zerosv = -100,subfamilies = kcs.subfam.training){
+  scores_neurons_families_nblast = matrix(0,nrow = length(listofneurons), ncol = length(unique(kcs.subfam.training)))
   rownames(scores_neurons_families_nblast) = names(listofneurons)
   colnames(scores_neurons_families_nblast) = unique(subfamilies)
 
-
-  # FIXME it should have been this
   scorecut=seq(-1,1,0.2)
-  # but probabilities_nblastscores_kcs was computed with this in error
-  scorecut=seq(-9,1,1)
-  probabilities_nblastscores_kcs = probabilities_nblastscores_kcsbad
-  #
+
   for(i in seq_along(listofneurons)){
     print(paste("working on neuron",i))
     neuron = dps[names(listofneurons)[i]]                                             ## Take the neuron
     #-------------------------------------------------------------------  Compute the nblast scores against the set of 180 neurons
 
-    maxscore=max(smat.fcwb)*nrow(neuron[[1]]$points)
+    maxscore=max(nat.nblast::smat.fcwb)*nrow(neuron[[1]]$points)
     scores_neuron = c()   ## List of the nblast scores of the neuron against the 180 neurons of reference
     for(j in 1:length(subfamilies)){
 
@@ -60,6 +55,8 @@ compute_score_subfamily = function(listofneurons,zeronbl = -0.9, zerosv = -100,s
     #-------------------------------------------------------------------  Find the list of supervoxels crossed
 
     sv_neuron = names(voxel_dens_allneurons[names(listofneurons)[i],voxel_dens_allneurons[names(listofneurons)[i],]>0])
+    # drop catch-all 0 voxel
+    sv_neuron=setdiff(sv_neuron, "0")
 
     #-------------------------------------------------------------------  Compute the score
     for(l in seq_along(unique(subfamilies))){              ## Now compute the score on each family
@@ -69,9 +66,10 @@ compute_score_subfamily = function(listofneurons,zeronbl = -0.9, zerosv = -100,s
         if (probabilities_nblastscores_kcs[k,l,findInterval(scores_neuron[k],scorecut)]==0){
           scores_neurons_families_nblast[names(listofneurons)[i],l] =  scores_neurons_families_nblast[names(listofneurons)[i],l] +zeronbl
         }else{
+          # message("k=",k," l=",l," fi=", findInterval(scores_neuron[k],scorecut))
+          logp=log(probabilities_nblastscores_kcs[k,l,findInterval(scores_neuron[k],scorecut)])
           scores_neurons_families_nblast[names(listofneurons)[i],l] =  scores_neurons_families_nblast[names(listofneurons)[i],l] +
-            log(probabilities_nblastscores_kcs[k,l,
-                                               findInterval(scores_neuron[k],scorecut)])
+            +logp
         }
       }
       scores_neurons_families_nblast[names(listofneurons)[i],l] = scores_neurons_families_nblast[names(listofneurons)[i],l]/length(subfamilies)

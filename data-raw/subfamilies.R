@@ -78,5 +78,5 @@ use_data(probabilities_nblastscores_kcs)
 probability_sv_knowing_subfamily =prior_prob_svscores()
 use_data(probability_sv_knowing_subfamily)
 
-probabily_subfamily_kcs = prior_prob_subfam()
-use_data(probabily_subfamily_kcs)
+probability_subfamily_kcs = prior_prob_subfam()
+use_data(probability_subfamily_kcs)

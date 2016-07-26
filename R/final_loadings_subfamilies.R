@@ -80,7 +80,7 @@ compute_score_subfamily = function(listofneurons,zeronbl = -0.9, zerosv = -100,s
       prob2 = prob[which(prob!=0)]
       score_f = sum(log(prob2))
       score_f = score_f+zerosv*zeros
-      scores_neurons_families_nblast[names(listofneurons)[i],l] =  scores_neurons_families_nblast[names(listofneurons)[i],l] + score_f/length(sv_neuron)+ log(probabily_subfamily_kcs[l])
+      scores_neurons_families_nblast[names(listofneurons)[i],l] =  scores_neurons_families_nblast[names(listofneurons)[i],l] + score_f/length(sv_neuron)+ log(probability_subfamily_kcs[l])
     }
   }
   return(scores_neurons_families_nblast)

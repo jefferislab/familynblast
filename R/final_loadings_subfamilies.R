@@ -32,7 +32,13 @@
 #' @export
 #' @importFrom nat.nblast nblast
 #' @examples
-#' compute_score_subfamily(kcs[25:35])
+#' # example using actual neuron objects in a neuronlist distributed with nat
+#' # package
+#' compute_score_subfamily(kcs20)
+#'
+#' # example using named flycircuit neurons - must have dps object of flycircuit
+#' # neurons loaded
+#' compute_score_subfamily(kcs.subfam.test[25:35])
 compute_score_subfamily = function(listofneurons,zeronbl = -0.9, zerosv = -100,subfamilies = kcs.subfam.training){
   scores_neurons_families_nblast = matrix(0,nrow = length(listofneurons), ncol = length(unique(kcs.subfam.training)))
   rownames(scores_neurons_families_nblast) = names(listofneurons)
@@ -42,6 +48,7 @@ compute_score_subfamily = function(listofneurons,zeronbl = -0.9, zerosv = -100,s
 
   for(i in seq_along(listofneurons)){
     print(paste("working on neuron",i))
+    # FIXME Deal with situation where we have neurons that are not part of dps!
     neuron = dps[names(listofneurons)[i]]                                             ## Take the neuron
     #-------------------------------------------------------------------  Compute the nblast scores against the set of 180 neurons
 

@@ -6,7 +6,7 @@
 against theneurons of the subfamilie}
 \usage{
 compute_score_subfamily(listofneurons, zeronbl = -0.9, zerosv = -100,
-  subfamilies = kcsm)
+  subfamilies = kcs.subfam.training)
 }
 \arguments{
 \item{listofneurons}{A list of neurons to test, list of neurons types named
@@ -28,6 +28,12 @@ compute_score_subfamily, computes all the scores of the list of neurons
 against theneurons of the subfamilie
 }
 \examples{
-compute_score_subfamily(kcs[25:35])
+# example using actual neuron objects in a neuronlist distributed with nat
+# package
+compute_score_subfamily(kcs20)
+
+# example using named flycircuit neurons - must have dps object of flycircuit
+# neurons loaded
+compute_score_subfamily(kcs.subfam.test[25:35])
 }
 

@@ -4,7 +4,7 @@
 \alias{prior_prob_svscores}
 \title{Compute the prior probabilities of the supervoxels}
 \usage{
-prior_prob_svscores(subfamilies = kcsm, computedens = FALSE)
+prior_prob_svscores(subfamilies = kcs.subfam.training, computedens = FALSE)
 }
 \arguments{
 \item{subfamilies}{list of neurons from the training set, neurons type named by flycircuit identifiers}

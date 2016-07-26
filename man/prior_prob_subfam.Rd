@@ -4,7 +4,7 @@
 \alias{prior_prob_subfam}
 \title{Compute the prior probabilities of the subfamilies}
 \usage{
-prior_prob_subfam(subfamiliesall = kcs.subfam.test)
+prior_prob_subfam(subfamiliesall = familynblast::kcs.subfam.test)
 }
 \arguments{
 \item{subfamiliesall}{list of neurons neurons type named by flycircuit identifiers, all neurons from the subfamilies}

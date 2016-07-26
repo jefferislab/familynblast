@@ -6,7 +6,7 @@
 against theneurons of the subfamilie}
 \usage{
 compute_score_subfamily(listofneurons, zeronbl = -0.9, zerosv = -100,
-  subfamilies = kcs.subfam.training)
+  subfamilies = familynblast::kcs.subfam.training)
 }
 \arguments{
 \item{listofneurons}{A list of neurons to test, list of neurons types named
@@ -34,6 +34,6 @@ compute_score_subfamily(kcs20)
 
 # example using named flycircuit neurons - must have dps object of flycircuit
 # neurons loaded
-compute_score_subfamily(kcs.subfam.test[25:35])
+compute_score_subfamily(familynblast::kcs.subfam.test[25:35])
 }
 

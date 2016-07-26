@@ -38,9 +38,9 @@
 #'
 #' # example using named flycircuit neurons - must have dps object of flycircuit
 #' # neurons loaded
-#' compute_score_subfamily(kcs.subfam.test[25:35])
-compute_score_subfamily = function(listofneurons,zeronbl = -0.9, zerosv = -100,subfamilies = kcs.subfam.training){
-  scores_neurons_families_nblast = matrix(0,nrow = length(listofneurons), ncol = length(unique(kcs.subfam.training)))
+#' compute_score_subfamily(familynblast::kcs.subfam.test[25:35])
+compute_score_subfamily = function(listofneurons,zeronbl = -0.9, zerosv = -100,subfamilies = familynblast::kcs.subfam.training){
+  scores_neurons_families_nblast = matrix(0,nrow = length(listofneurons), ncol = length(unique(familynblast::kcs.subfam.training)))
   rownames(scores_neurons_families_nblast) = names(listofneurons)
   colnames(scores_neurons_families_nblast) = unique(subfamilies)
 
@@ -82,12 +82,13 @@ compute_score_subfamily = function(listofneurons,zeronbl = -0.9, zerosv = -100,s
       scores_neurons_families_nblast[names(listofneurons)[i],l] = scores_neurons_families_nblast[names(listofneurons)[i],l]/length(subfamilies)
 
       ## Part on supervoxels
-      prob = probability_sv_knowing_subfamily[sv_neuron,l]
+      prob = familynblast::probability_sv_knowing_subfamily[sv_neuron,l]
       zeros = sum(prob==0)
       prob2 = prob[which(prob!=0)]
       score_f = sum(log(prob2))
       score_f = score_f+zerosv*zeros
-      scores_neurons_families_nblast[names(listofneurons)[i],l] =  scores_neurons_families_nblast[names(listofneurons)[i],l] + score_f/length(sv_neuron)+ log(probability_subfamily_kcs[l])
+      scores_neurons_families_nblast[names(listofneurons)[i],l] =  scores_neurons_families_nblast[names(listofneurons)[i],l] + score_f/length(sv_neuron) +
+        log(familynblast::probability_subfamily_kcs[l])
     }
   }
   return(scores_neurons_families_nblast)
@@ -102,7 +103,7 @@ compute_score_subfamily = function(listofneurons,zeronbl = -0.9, zerosv = -100,s
 #'
 #' @examples
 #' @importFrom nat.nblast nblast
-prior_prob_nblastscores = function(subfamilies = kcs.subfam.training, bins=seq(-1,1,0.2)){
+prior_prob_nblastscores = function(subfamilies = familynblast::kcs.subfam.training, bins=seq(-1,1,0.2)){
   probabilities_nblastscores = array(0,dim=c(length(subfamilies),length(unique(subfamilies)),length(bins)))
   dimnames(probabilities_nblastscores) = list(names(subfamilies),unique(subfamilies),bins)
   for(i in seq_along(subfamilies)){              ## For every neuron of the 1080 that will make the set
@@ -134,13 +135,13 @@ prior_prob_nblastscores = function(subfamilies = kcs.subfam.training, bins=seq(-
 #'
 #' @examples
 ## subfamiliesall should be the list of all the neurons in
-prior_prob_subfam = function(subfamiliesall = kcs.subfam.test){
+prior_prob_subfam = function(subfamiliesall = familynblast::kcs.subfam.test){
   probabily_subfamily = c()
   for(i in unique(subfamiliesall)){
     print(i)
     probabily_subfamily = c(probabily_subfamily, table(subfamiliesall)[i]/sum(table(subfamiliesall)))
   }
-  names(probabily_subfamily) =  unique(subfamiliesall)
+  names(probabily_subfamily) = unique(subfamiliesall)
   return(probabily_subfamily)
 }
 
@@ -153,10 +154,12 @@ prior_prob_subfam = function(subfamiliesall = kcs.subfam.test){
 #' @export
 #'
 #' @examples
-prior_prob_svscores = function(subfamilies = kcs.subfam.training,computedens = FALSE){
+prior_prob_svscores = function(subfamilies = familynblast::kcs.subfam.training,computedens = FALSE){
   if (computedens == TRUE){
     voxel_dens_allneurons = voxel_dens(names(subfamilies))
     rownames(voxel_dens_allneurons) = names(subfamilies)
+  } else {
+    voxel_dens_allneurons = familynblast::voxel_dens_allneurons
   }
   number_neurons_fromsubfam_insv = matrix(0,nrow=7065,ncol=length(unique(subfamilies)))
   for (i in seq_along(unique(subfamilies))){

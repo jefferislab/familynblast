@@ -4,8 +4,8 @@
 \alias{prior_prob_nblastscores}
 \title{Compute the prior probabilities of the nblast scores}
 \usage{
-prior_prob_nblastscores(subfamilies = kcs.subfam.training, bins = seq(-1, 1,
-  0.2))
+prior_prob_nblastscores(subfamilies = familynblast::kcs.subfam.training,
+  bins = seq(-1, 1, 0.2))
 }
 \arguments{
 \item{subfamilies}{list of neurons from the training set, neurons type named by flycircuit identifiers}

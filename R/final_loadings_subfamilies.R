@@ -69,12 +69,13 @@ compute_score_subfamily = function(listofneurons,zeronbl = -0.9, zerosv = -100,s
     for(l in seq_along(unique(subfamilies))){              ## Now compute the score on each family
       names3 = subfamilies[which(subfamilies ==  unique(subfamilies)[l])]
       for(k in names(names3)){          ## Part on nblast
-        #browser()
-        if (probabilities_nblastscores_kcs[k,l,findInterval(scores_neuron[k],scorecut)]==0){
+        # FIXME this needs to be made more generic so it can work with neurons
+        # other than KCs
+        if (familynblast::probabilities_nblastscores_kcs[k,l,findInterval(scores_neuron[k],scorecut)]==0){
           scores_neurons_families_nblast[names(listofneurons)[i],l] =  scores_neurons_families_nblast[names(listofneurons)[i],l] +zeronbl
         }else{
           # message("k=",k," l=",l," fi=", findInterval(scores_neuron[k],scorecut))
-          logp=log(probabilities_nblastscores_kcs[k,l,findInterval(scores_neuron[k],scorecut)])
+          logp=log(familynblast::probabilities_nblastscores_kcs[k,l,findInterval(scores_neuron[k],scorecut)])
           scores_neurons_families_nblast[names(listofneurons)[i],l] =  scores_neurons_families_nblast[names(listofneurons)[i],l] +
             +logp
         }

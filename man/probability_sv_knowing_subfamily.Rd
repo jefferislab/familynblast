@@ -12,14 +12,15 @@
   neurons in the \code{\link{kcs.subfam.training}} training set. Computed by
   \code{\link{prior_prob_svscores}}.
 
+  \code{probabilities_nblastscores_kcs} contains the probabilities for NBLAST
+  scores to fall into a certain bin (11 bins in range -1 to +1 ) for neurons
+  in the 6 different KC subfamilies. It is a 3D array with dimensions 180
+  (neurons) x 6 (subfamilies) x 11 (NBLAST score bins). Computed by
+  \code{\link{prior_prob_nblastscores}}.
+
   \code{probability_subfamily_kcs} contains the prior probability for each of
   the 6 subfamilies in the complete flycircuit dataset. Computed by
   \code{\link{prior_prob_subfam}}.
-
-\code{probabilities_nblastscores_kcs} contains the probabilities
-  for NBLAST scores to fall into a certain bin (11 bins in range -1 to +1 )
-  for neurons in the 6 different KC families. It is a 3D array with
-  dimensions. Computed by \code{\link{prior_prob_nblastscores}}.
 }
 \examples{
 # dimensions of NBLAST probabilities by subfamily

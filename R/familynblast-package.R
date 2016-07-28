@@ -33,6 +33,7 @@
 #' @docType package
 #' @keywords package
 #' @encoding UTF-8
+#' @import Matrix
 #' @references Developed as part of a research internship by Mélina Durande
 #'   (ENS Lyon) in the lab of Gregory Jefferis (Neurobiology Division, MRC LMB,
 #'   Cambridge) in May-July 2016. (FIXME Link to report?).

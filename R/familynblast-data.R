@@ -88,7 +88,7 @@ NULL
 #' @seealso \code{\link{prior_prob_svscores}}, \code{\link{prior_prob_subfam}},
 #'   \code{\link{prior_prob_nblastscores}}
 #' @name probability_sv_knowing_subfamily
-#' @aliases probability_subfamily_kcs
+#' @aliases probability_subfamily_kcs probabilities_nblastscores_kcs
 #' @docType data
 #' @examples
 #' # dimensions of NBLAST probabilities by subfamily

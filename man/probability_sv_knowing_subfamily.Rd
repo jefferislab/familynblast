@@ -2,6 +2,7 @@
 % Please edit documentation in R/familynblast-data.R
 \docType{data}
 \name{probability_sv_knowing_subfamily}
+\alias{probabilities_nblastscores_kcs}
 \alias{probability_subfamily_kcs}
 \alias{probability_sv_knowing_subfamily}
 \title{Probability matrices for flycircuit Kenyon cell subfamily model}

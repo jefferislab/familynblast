@@ -19,3 +19,4 @@ Imports:
     Matrix,
     nat.flybrains
 RoxygenNote: 5.0.1
+Suggests: testthat

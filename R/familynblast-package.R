@@ -32,8 +32,9 @@
 #' @aliases familynblast
 #' @docType package
 #' @keywords package
-#' @references Developed as part of a research internship by Mélina Durande (ENS
-#'   Lyon) in the lab of Gregory Jefferis (Neurobiology Division, MRC LMB,
+#' @encoding UTF-8
+#' @references Developed as part of a research internship by Mélina Durande
+#'   (ENS Lyon) in the lab of Gregory Jefferis (Neurobiology Division, MRC LMB,
 #'   Cambridge) in May-July 2016. (FIXME Link to report?).
 #'
 #'   The supervoxel parcellation is unpublished work due to Kristin Branson

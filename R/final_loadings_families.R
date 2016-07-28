@@ -309,7 +309,7 @@ create_probab_sv_knowing_fam = function(setoffamilies, db=NULL, ...){
   for (i in seq_along(setoffamilies)){
     print(paste("moving to family",i))
     setofneurons = setoffamilies[[i]]   ### ??
-    number_neurons_fromfam_insv[,i] = colSums(voxel_dens_allneurons[setofneurons,-1]!=0)
+    number_neurons_fromfam_insv[,i] = colSums(voxel_dens_allneurons[setofneurons,-1, drop=FALSE]!=0)
   }
   # Filling up the matrix of probabilities for supervoxels knowing the family --------
   ### We have to determine the probability of having sj knowing we are in the family i

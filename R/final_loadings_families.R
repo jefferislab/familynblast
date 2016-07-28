@@ -278,7 +278,7 @@ return(probability_correct_families)
 #'   supervoxel densities of the neurons named in \code{setoffamilies}.
 #' @param ... Additional arguments passed to \code{\link{voxel_dens}}
 #' @return A matrix with supervoxels as rows and families as columns (and
-#'   appropriate row and column names).
+#'   appropriate row and column names). The 0 level will always be dropped.
 #' @details if \code{neurons} argument is missing then it is assumed that
 #'   neurons are FlyCircuit neurons present in the pre-computed
 #'   \code{\link{voxel_dens_allneurons}}; there will be an error if this is not
@@ -302,28 +302,26 @@ create_probab_sv_knowing_fam = function(setoffamilies, db=NULL, ...){
   } else {
     message("Computing voxel densities for ", length(neuron_ids), " neurons")
     voxel_dens_allneurons = voxel_dens(db[neuron_ids], ...)
-    if("0" %in% colnames(voxel_dens_allneurons))
-      voxel_dens_allneurons=voxel_dens_allneurons[,-1, drop=FALSE]
   }
   # number of super voxels (excluding 0)
-  nsvoxels=ncol(voxel_dens_allneurons)
+  nsvoxels=ncol(voxel_dens_allneurons)-1
   number_neurons_fromfam_insv = matrix(0,nrow=nsvoxels,ncol=length(setoffamilies))
   for (i in seq_along(setoffamilies)){
     print(paste("moving to family",i))
     setofneurons = setoffamilies[[i]]   ### ??
-    for(j in 1:nsvoxels){
-      number_neurons_fromfam_insv[j,i] = sum(voxel_dens_allneurons[names(setofneurons),j]!=0)
+    for(j in seq_len(nsvoxels)){
+      number_neurons_fromfam_insv[j,i] = sum(voxel_dens_allneurons[setofneurons,j+1]!=0)
     }
   }
   # Filling up the matrix of probabilities for supervoxels knowing the family --------
   ### We have to determine the probability of having sj knowing we are in the family i
   probability_sv_knowing_family = matrix(0,nrow=nsvoxels,ncol=length(setoffamilies))
   for(l in seq_along(setoffamilies)){
-    for (k in 1:nsvoxels){
+    for (k in seq_len(nsvoxels)){
       probability_sv_knowing_family[k,l] = number_neurons_fromfam_insv[k,l]/length(familynblast::correct_families[[l]])
     }
   }
   colnames(probability_sv_knowing_family)=names(setoffamilies)
-  rownames(probability_sv_knowing_family)=colnames(voxel_dens_allneurons)
+  rownames(probability_sv_knowing_family)=colnames(voxel_dens_allneurons)[-1]
   return(probability_sv_knowing_family)
 }

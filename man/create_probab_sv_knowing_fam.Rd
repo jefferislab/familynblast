@@ -20,7 +20,7 @@ supervoxel densities of the neurons named in \code{setoffamilies}.}
 }
 \value{
 A matrix with supervoxels as rows and families as columns (and
-  appropriate row and column names).
+  appropriate row and column names). The 0 level will always be dropped.
 }
 \description{
 Create probability matrix with supervoxels as rows and families as columns
@@ -34,7 +34,7 @@ if \code{neurons} argument is missing then it is assumed that
 }
 \examples{
 kcs20.setoffamilies=by(names(kcs20), kcs20[,'type'], as.character)
-kcs20.prob=create_probab_sv_knowing_fam(kcs20.setoffamilies, neurons=kcs20)
+kcs20.prob=create_probab_sv_knowing_fam(kcs20.setoffamilies, db=kcs20)
 }
 \seealso{
 \code{\link{voxel_dens}},

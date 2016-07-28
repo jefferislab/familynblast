@@ -28,6 +28,7 @@ compute_score_subfamily, computes all the scores of the list of neurons
 against theneurons of the subfamilie
 }
 \examples{
+\dontrun{
 # example using actual neuron objects in a neuronlist distributed with nat
 # package
 compute_score_subfamily(kcs20)
@@ -35,5 +36,6 @@ compute_score_subfamily(kcs20)
 # example using named flycircuit neurons - must have dps object of flycircuit
 # neurons loaded
 compute_score_subfamily(familynblast::kcs.subfam.test[25:35])
+}
 }
 

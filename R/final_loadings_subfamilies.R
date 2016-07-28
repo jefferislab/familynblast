@@ -32,6 +32,7 @@
 #' @export
 #' @importFrom nat.nblast nblast
 #' @examples
+#' \dontrun{
 #' # example using actual neuron objects in a neuronlist distributed with nat
 #' # package
 #' compute_score_subfamily(kcs20)
@@ -39,6 +40,7 @@
 #' # example using named flycircuit neurons - must have dps object of flycircuit
 #' # neurons loaded
 #' compute_score_subfamily(familynblast::kcs.subfam.test[25:35])
+#' }
 compute_score_subfamily = function(listofneurons,zeronbl = -0.9, zerosv = -100,subfamilies = familynblast::kcs.subfam.training){
   scores_neurons_families_nblast = matrix(0,nrow = length(listofneurons), ncol = length(unique(familynblast::kcs.subfam.training)))
   rownames(scores_neurons_families_nblast) = names(listofneurons)

@@ -5,19 +5,38 @@
 \title{Create probability matrix with supervoxels as rows and families as columns
 for a setoffamilies}
 \usage{
-create_probab_sv_knowing_fam(setoffamilies, computedens = FALSE)
+create_probab_sv_knowing_fam(setoffamilies, db = NULL, ...)
 }
 \arguments{
-\item{setoffamilies}{EITHER a named list of families, with each item defining
-containing a character vector of neurons within that family OR a neuronlist
-containing neurons (FIXME - this needs to be better defined when
-computedens=T)}
+\item{setoffamilies}{A named list of families, with each list item containing
+a character vector of ids of neurons within that family. The ids are
+assumed to be FlyCircuit ids if the \code{neurons} argument is missing}
 
-\item{computedens}{Whether or not to compute densities (which would be
-necessary for non-flycircuit neurons)}
+\item{db}{A \code{\link[nat]{neuronlist}} containing neuron structures. If
+present it is assumed that you want \code{\link{voxel_dens}} to compute the
+supervoxel densities of the neurons named in \code{setoffamilies}.}
+
+\item{...}{Additional arguments passed to \code{\link{voxel_dens}}}
+}
+\value{
+A matrix with supervoxels as rows and families as columns (and
+  appropriate row and column names).
 }
 \description{
 Create probability matrix with supervoxels as rows and families as columns
 for a setoffamilies
+}
+\details{
+if \code{neurons} argument is missing then it is assumed that
+  neurons are FlyCircuit neurons present in the pre-computed
+  \code{\link{voxel_dens_allneurons}}; there will be an error if this is not
+  the case.
+}
+\examples{
+kcs20.setoffamilies=by(names(kcs20), kcs20[,'type'], as.character)
+kcs20.prob=create_probab_sv_knowing_fam(kcs20.setoffamilies, neurons=kcs20)
+}
+\seealso{
+\code{\link{voxel_dens}},
 }
 

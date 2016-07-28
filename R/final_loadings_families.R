@@ -270,36 +270,60 @@ return(probability_correct_families)
 #' Create probability matrix with supervoxels as rows and families as columns
 #' for a setoffamilies
 #'
-#' @param setoffamilies EITHER a named list of families, with each item defining
-#'   containing a character vector of neurons within that family OR a neuronlist
-#'   containing neurons (FIXME - this needs to be better defined when
-#'   computedens=T)
-#' @inheritParams neurons_against_fam
-#' @return
+#' @param setoffamilies A named list of families, with each list item containing
+#'   a character vector of ids of neurons within that family. The ids are
+#'   assumed to be FlyCircuit ids if the \code{neurons} argument is missing
+#' @param db A \code{\link[nat]{neuronlist}} containing neuron structures. If
+#'   present it is assumed that you want \code{\link{voxel_dens}} to compute the
+#'   supervoxel densities of the neurons named in \code{setoffamilies}.
+#' @param ... Additional arguments passed to \code{\link{voxel_dens}}
+#' @return A matrix with supervoxels as rows and families as columns (and
+#'   appropriate row and column names).
+#' @details if \code{neurons} argument is missing then it is assumed that
+#'   neurons are FlyCircuit neurons present in the pre-computed
+#'   \code{\link{voxel_dens_allneurons}}; there will be an error if this is not
+#'   the case.
 #' @export
-#'
+#' @importFrom flycircuit fc_gene_name
+#' @seealso \code{\link{voxel_dens}},
 #' @examples
-create_probab_sv_knowing_fam = function(setoffamilies, computedens=FALSE){
-  if (computedens == TRUE){
-    voxel_dens_allneurons = voxel_dens(unlist(setoffamilies, use.names=F))
-    rownames(voxel_dens_allneurons) = unlist(setoffamilies, use.names = F)
+#' kcs20.setoffamilies=by(names(kcs20), kcs20[,'type'], as.character)
+#' kcs20.prob=create_probab_sv_knowing_fam(kcs20.setoffamilies, neurons=kcs20)
+create_probab_sv_knowing_fam = function(setoffamilies, db=NULL, ...){
+  neuron_ids=unlist(setoffamilies, use.names=F)
+  if (is.null(db)){
+    # convert any kind of FlyCircuit id to the preferred gene_name form
+    neuron_ids=fc_gene_name(neuron_ids)
+    # check ids are present in pre-computed data
+    voxel_dens_allneurons=familynblast::voxel_dens_allneurons
+    if(!all(neuron_ids%in%rownames(voxel_dens_allneurons)))
+      stop("Some neuron ids in setoffamilies are not present in precomputed voxel_dens_allneurons.\n",
+           "Check ids or supply neurons argument to allow computation from scratch!")
+  } else {
+    message("Computing voxel densities for ", length(neuron_ids), " neurons")
+    voxel_dens_allneurons = voxel_dens(db[neuron_ids], ...)
+    if("0" %in% colnames(voxel_dens_allneurons))
+      voxel_dens_allneurons=voxel_dens_allneurons[,-1, drop=FALSE]
   }
-  number_neurons_fromfam_insv = matrix(0,nrow=7065,ncol=length(setoffamilies))
+  # number of super voxels (excluding 0)
+  nsvoxels=ncol(voxel_dens_allneurons)
+  number_neurons_fromfam_insv = matrix(0,nrow=nsvoxels,ncol=length(setoffamilies))
   for (i in seq_along(setoffamilies)){
     print(paste("moving to family",i))
     setofneurons = setoffamilies[[i]]   ### ??
-    for(j in 1:7065){
+    for(j in 1:nsvoxels){
       number_neurons_fromfam_insv[j,i] = sum(voxel_dens_allneurons[names(setofneurons),j]!=0)
     }
   }
   # Filling up the matrix of probabilities for supervoxels knowing the family --------
   ### We have to determine the probability of having sj knowing we are in the family i
-  probability_sv_knowing_family = matrix(0,nrow=7065,ncol=length(setoffamilies))
+  probability_sv_knowing_family = matrix(0,nrow=nsvoxels,ncol=length(setoffamilies))
   for(l in seq_along(setoffamilies)){
-    for (k in 1:7065){
+    for (k in 1:nsvoxels){
       probability_sv_knowing_family[k,l] = number_neurons_fromfam_insv[k,l]/length(familynblast::correct_families[[l]])
     }
   }
+  colnames(probability_sv_knowing_family)=names(setoffamilies)
+  rownames(probability_sv_knowing_family)=colnames(voxel_dens_allneurons)
   return(probability_sv_knowing_family)
 }
-

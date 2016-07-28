@@ -61,7 +61,8 @@ compute_score_subfamily = function(listofneurons,zeronbl = -0.9, zerosv = -100,s
     names(scores_neuron) = names(subfamilies)
     #-------------------------------------------------------------------  Find the list of supervoxels crossed
 
-    sv_neuron = names(voxel_dens_allneurons[names(listofneurons)[i],voxel_dens_allneurons[names(listofneurons)[i],]>0])
+    sv_neuron = names(familynblast::voxel_dens_allneurons[names(listofneurons)[i],
+                                                          familynblast::voxel_dens_allneurons[names(listofneurons)[i],]>0])
     # drop catch-all 0 voxel
     sv_neuron=setdiff(sv_neuron, "0")
 

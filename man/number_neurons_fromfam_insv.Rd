@@ -3,10 +3,14 @@
 \docType{data}
 \name{number_neurons_fromfam_insv}
 \alias{number_neurons_fromfam_insv}
-\title{The numbers of neurons crossing each supervoxel, matrix of 7065}
+\title{The numbers of neurons crossing each supervoxel}
 \description{
-The numbers of neurons crossing each supervoxel, matrix of 7065
-
-The numbes of neurons crossing each supervoxel, matrix of 7065
+Matrix of 7065 rows (supervoxels) and 137 columns (families)
+}
+\seealso{
+Other flycircuit-family-data: \code{\link{correct_families}},
+  \code{\link{fc_neuron_typec}},
+  \code{\link{probability_correct_families}},
+  \code{\link{probability_sv_knowing_family}}
 }
 

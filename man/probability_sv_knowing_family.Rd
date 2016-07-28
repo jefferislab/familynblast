@@ -3,8 +3,14 @@
 \docType{data}
 \name{probability_sv_knowing_family}
 \alias{probability_sv_knowing_family}
-\title{The probabilities of all the supervoxels in each family, matrix of nrow = 7065}
+\title{The probabilities of all the supervoxels in each family}
 \description{
-The probabilities of all the supervoxels in each family, matrix of nrow = 7065
+Matrix of 7065 rows (supervoxels) and 137 columns (families)
+}
+\seealso{
+Other flycircuit-family-data: \code{\link{correct_families}},
+  \code{\link{fc_neuron_typec}},
+  \code{\link{number_neurons_fromfam_insv}},
+  \code{\link{probability_correct_families}}
 }
 

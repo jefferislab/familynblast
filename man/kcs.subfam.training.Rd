@@ -10,4 +10,7 @@
   sub-families, while \code{kcs.subfam.test} are the remaining
   \code{flycircuit} KCs.
 }
+\seealso{
+Other flycircuit-kc-subfamily-data: \code{\link{probability_sv_knowing_subfamily}}
+}
 

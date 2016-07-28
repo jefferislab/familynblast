@@ -21,7 +21,7 @@ Predict the families for a list of neurons
 This will return
 }
 \seealso{
-Other find.family: \code{\link{find_scores_family}},
+Other find-family: \code{\link{find_scores_family}},
   \code{\link{neurons_against_fam}}
 }
 

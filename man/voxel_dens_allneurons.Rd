@@ -10,4 +10,8 @@ It has 7066 columns (all supervoxels including catch-all 0 level) and 16129
 rows for each flycircuit neuron. The rows are named with the flycircuit
 \code{gene_name} - see \code{\link[flycircuit]{fc_gene_name}}. CHECK
 }
+\seealso{
+Other flycircuit-supervoxel-data: \code{\link{svoxels.fcwb.table}},
+  \code{\link{svoxels.fcwb}}
+}
 

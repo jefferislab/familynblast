@@ -21,7 +21,7 @@ not overlapped by any family member.}
 Find scores of list of neurons against all families
 }
 \seealso{
-Other find.family: \code{\link{find_neurons_family}},
+Other find-family: \code{\link{find_neurons_family}},
   \code{\link{neurons_against_fam}}
 }
 

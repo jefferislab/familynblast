@@ -10,4 +10,8 @@ and then bridged to the FCWB space containing the flycircuit neurons. It
 contains 7065 non-zero levels defining supervoxels covering nc82 positive
 regions in the brain (i.e. neuropil).
 }
+\seealso{
+Other flycircuit-supervoxel-data: \code{\link{svoxels.fcwb.table}},
+  \code{\link{voxel_dens_allneurons}}
+}
 

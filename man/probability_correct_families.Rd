@@ -12,5 +12,10 @@ hist(probability_correct_families)
 }
 \seealso{
 \code{\link{correct_families}}
+
+Other flycircuit-family-data: \code{\link{correct_families}},
+  \code{\link{fc_neuron_typec}},
+  \code{\link{number_neurons_fromfam_insv}},
+  \code{\link{probability_sv_knowing_family}}
 }
 

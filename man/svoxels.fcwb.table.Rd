@@ -7,4 +7,8 @@
 \description{
 A table that contains the number of voxels in the supervoxels
 }
+\seealso{
+Other flycircuit-supervoxel-data: \code{\link{svoxels.fcwb}},
+  \code{\link{voxel_dens_allneurons}}
+}
 

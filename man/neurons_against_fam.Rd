@@ -45,7 +45,7 @@ maxscore=apply(res, 1,max)
 cbind(kcs20[,c("Name","type")], pred, max=maxscore)
 }
 \seealso{
-Other find.family: \code{\link{find_neurons_family}},
+Other find-family: \code{\link{find_neurons_family}},
   \code{\link{find_scores_family}}
 }
 

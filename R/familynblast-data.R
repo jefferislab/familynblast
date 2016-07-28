@@ -1,12 +1,14 @@
 #' All flycircuit neurons with the correct labels we are working on
 #' @name fc_neuron_typec
 #' @docType data
+#' @family flycircuit-family-data
 NULL
 
 #' All 137 families of flycircuit neurons
 #' @details We still have to get rid of the ones that contains one neuron
 #' @name correct_families
 #' @docType data
+#' @family flycircuit-family-data
 NULL
 
 #' The prior probabilities for all the families in correct_families
@@ -15,26 +17,29 @@ NULL
 #' @docType data
 #' @examples
 #' hist(probability_correct_families)
+#' @family flycircuit-family-data
 NULL
 
-#' The numbers of neurons crossing each supervoxel, matrix of 7065
+#' The numbers of neurons crossing each supervoxel
+#'
+#' Matrix of 7065 rows (supervoxels) and 137 columns (families)
 #' @name number_neurons_fromfam_insv
 #' @docType data
+#' @family flycircuit-family-data
 NULL
 
-#' The numbes of neurons crossing each supervoxel, matrix of 7065
-#' @name number_neurons_fromfam_insv
-#' @docType data
-NULL
-
-#' The probabilities of all the supervoxels in each family, matrix of nrow = 7065
+#' The probabilities of all the supervoxels in each family
+#'
+#' Matrix of 7065 rows (supervoxels) and 137 columns (families)
 #' @name probability_sv_knowing_family
 #' @docType data
+#' @family flycircuit-family-data
 NULL
 
 #' A table that contains the number of voxels in the supervoxels
 #' @name svoxels.fcwb.table
 #' @docType data
+#' @family flycircuit-supervoxel-data
 NULL
 
 #' Supervoxel label field in FCWB space
@@ -45,6 +50,7 @@ NULL
 #' regions in the brain (i.e. neuropil).
 #' @name svoxels.fcwb
 #' @docType data
+#' @family flycircuit-supervoxel-data
 NULL
 
 #' Precalculated super voxel density representation of flycircuit neurons
@@ -54,6 +60,7 @@ NULL
 #' rows for each flycircuit neuron. The rows are named with the flycircuit
 #' \code{gene_name} - see \code{\link[flycircuit]{fc_gene_name}}. CHECK
 #' @name voxel_dens_allneurons
+#' @family flycircuit-supervoxel-data
 #' @docType data
 NULL
 
@@ -63,10 +70,10 @@ NULL
 #'   sub-families, while \code{kcs.subfam.test} are the remaining
 #'   \code{flycircuit} KCs.
 #'
-#'
 #' @name kcs.subfam.training
 #' @aliases kcs.subfam.test
 #' @docType data
+#' @family flycircuit-kc-subfamily-data
 NULL
 
 #' Probability matrices for flycircuit Kenyon cell subfamily model
@@ -91,6 +98,7 @@ NULL
 #' @name probability_sv_knowing_subfamily
 #' @aliases probability_subfamily_kcs probabilities_nblastscores_kcs
 #' @docType data
+#' @family flycircuit-kc-subfamily-data
 #' @examples
 #' # dimensions of NBLAST probabilities by subfamily
 #' dim(probabilities_nblastscores_kcs)

@@ -7,4 +7,10 @@
 \description{
 All flycircuit neurons with the correct labels we are working on
 }
+\seealso{
+Other flycircuit-family-data: \code{\link{correct_families}},
+  \code{\link{number_neurons_fromfam_insv}},
+  \code{\link{probability_correct_families}},
+  \code{\link{probability_sv_knowing_family}}
+}
 

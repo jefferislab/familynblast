@@ -30,5 +30,7 @@ dimnames(probabilities_nblastscores_kcs)
 \seealso{
 \code{\link{prior_prob_svscores}}, \code{\link{prior_prob_subfam}},
   \code{\link{prior_prob_nblastscores}}
+
+Other flycircuit-kc-subfamily-data: \code{\link{kcs.subfam.training}}
 }
 

@@ -288,7 +288,7 @@ return(probability_correct_families)
 #' @seealso \code{\link{voxel_dens}},
 #' @examples
 #' kcs20.setoffamilies=by(names(kcs20), kcs20[,'type'], as.character)
-#' kcs20.prob=create_probab_sv_knowing_fam(kcs20.setoffamilies, neurons=kcs20)
+#' kcs20.prob=create_probab_sv_knowing_fam(kcs20.setoffamilies, db=kcs20)
 create_probab_sv_knowing_fam = function(setoffamilies, db=NULL, ...){
   neuron_ids=unlist(setoffamilies, use.names=F)
   if (is.null(db)){

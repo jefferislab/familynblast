@@ -305,18 +305,12 @@ create_probab_sv_knowing_fam = function(setoffamilies, db=NULL, ...){
   }
   # number of super voxels (excluding 0)
   nsvoxels=ncol(voxel_dens_allneurons)-1
-  number_neurons_fromfam_insv = matrix(0,nrow=nsvoxels,ncol=length(setoffamilies))
+  probability_sv_knowing_family = matrix(0,nrow=nsvoxels,ncol=length(setoffamilies))
   for (i in seq_along(setoffamilies)){
     print(paste("moving to family",i))
     setofneurons = setoffamilies[[i]]   ### ??
-    number_neurons_fromfam_insv[,i] = colSums(voxel_dens_allneurons[setofneurons,-1, drop=FALSE]!=0)
-  }
-  # Filling up the matrix of probabilities for supervoxels knowing the family --------
-  ### We have to determine the probability of having sj knowing we are in the family i
-  probability_sv_knowing_family = matrix(0,nrow=nsvoxels,ncol=length(setoffamilies))
-  family_lengths=sapply(setoffamilies, length)
-  for(l in seq_along(setoffamilies)){
-    probability_sv_knowing_family[,l] = number_neurons_fromfam_insv[,l]/family_lengths[l]
+    neurons_per_sv=colSums(voxel_dens_allneurons[setofneurons,-1, drop=FALSE]!=0)
+    probability_sv_knowing_family[,i] = neurons_per_sv/length(setofneurons)
   }
   colnames(probability_sv_knowing_family)=names(setoffamilies)
   rownames(probability_sv_knowing_family)=colnames(voxel_dens_allneurons)[-1]

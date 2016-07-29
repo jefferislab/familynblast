@@ -5,7 +5,8 @@
 \title{Create probability matrix with supervoxels as rows and families as columns
 for a setoffamilies}
 \usage{
-create_probab_sv_knowing_fam(setoffamilies, db = NULL, ...)
+create_probab_sv_knowing_fam(setoffamilies, db = NULL,
+  voxel_dens_allneurons = NULL, ...)
 }
 \arguments{
 \item{setoffamilies}{A named list of families, with each list item containing
@@ -15,6 +16,12 @@ assumed to be FlyCircuit ids if the \code{neurons} argument is missing}
 \item{db}{A \code{\link[nat]{neuronlist}} containing neuron structures. If
 present it is assumed that you want \code{\link{voxel_dens}} to compute the
 supervoxel densities of the neurons named in \code{setoffamilies}.}
+
+\item{voxel_dens_allneurons}{Precomputed supervoxel representation for all
+neurons in \code{setoffamilies}. Defaults to
+\code{\link{voxel_dens_allneurons}} i.e. precomputed supervoxel density
+object for all flycircuit neurons on the FCWB template (based on
+\code{\link{svoxels.fcwb}}).}
 
 \item{...}{Additional arguments passed to \code{\link{voxel_dens}}}
 }

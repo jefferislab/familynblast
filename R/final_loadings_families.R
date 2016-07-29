@@ -276,6 +276,11 @@ return(probability_correct_families)
 #' @param db A \code{\link[nat]{neuronlist}} containing neuron structures. If
 #'   present it is assumed that you want \code{\link{voxel_dens}} to compute the
 #'   supervoxel densities of the neurons named in \code{setoffamilies}.
+#' @param voxel_dens_allneurons Precomputed supervoxel representation for all
+#'   neurons in \code{setoffamilies}. Defaults to
+#'   \code{\link{voxel_dens_allneurons}} i.e. precomputed supervoxel density
+#'   object for all flycircuit neurons on the FCWB template (based on
+#'   \code{\link{svoxels.fcwb}}).
 #' @param ... Additional arguments passed to \code{\link{voxel_dens}}
 #' @return A matrix with supervoxels as rows and families as columns (and
 #'   appropriate row and column names). The 0 level will always be dropped.
@@ -289,9 +294,10 @@ return(probability_correct_families)
 #' @examples
 #' kcs20.setoffamilies=by(names(kcs20), kcs20[,'type'], as.character)
 #' kcs20.prob=create_probab_sv_knowing_fam(kcs20.setoffamilies, db=kcs20)
-create_probab_sv_knowing_fam = function(setoffamilies, db=NULL, ...){
+create_probab_sv_knowing_fam = function(setoffamilies, db=NULL,
+                                        voxel_dens_allneurons=NULL, ...){
   neuron_ids=unlist(setoffamilies, use.names=F)
-  if (is.null(db)){
+  if (is.null(db) && is.null(voxel_dens_allneurons)){
     # convert any kind of FlyCircuit id to the preferred gene_name form
     neuron_ids=fc_gene_name(neuron_ids)
     # check ids are present in pre-computed data

@@ -3,7 +3,7 @@
 #' This package implements two strategies for predicting the class of neurons
 #' based on a training set of neurons. The first strategy using a representation
 #' based on dividing the brain into a set of 7065 supervoxels. This strategy is
-#' targetd at broad \bold{families} of neurons (think Kenyon cells or the three
+#' targeted at broad \bold{families} of neurons (think Kenyon cells or the three
 #' main classes of Kenyon cell).
 #'
 #' The second strategy combines the first strategy with the additional use of
@@ -34,12 +34,12 @@
 #' @keywords package
 #' @encoding UTF-8
 #' @import Matrix
-#' @references Developed as part of a research internship by Mélina Durande
-#'   (ENS Lyon) in the lab of Gregory Jefferis (Neurobiology Division, MRC LMB,
+#' @references Developed as part of a research internship by Mélina Durande (ENS
+#'   Lyon) in the lab of Gregory Jefferis (Neurobiology Division, MRC LMB,
 #'   Cambridge) in May-July 2016. (FIXME Link to report?).
 #'
 #'   The supervoxel parcellation is unpublished work due to Kristin Branson
-#'   (HHMI Janelia research Campus).
+#'   (HHMI Janelia Research Campus).
 #'
 #'   The registered data and annotations for the FlyCircuit neurons were
 #'   described in:
@@ -47,8 +47,9 @@
 #'   Costa, M., Ostrovsky, A.D., Manton, J.D., Prohaska, S., and Jefferis,
 #'   G.S.X.E. (2014). NBLAST: Rapid, sensitive comparison of neuronal structure
 #'   and construction of neuron family databases. Biorxiv preprint.
-#'   \href{http://dx.doi.org/10.1101/006346}{doi: 10.1101/006346}. The original
-#'   FlyCircuit data were obtained from:
+#'   \href{http://dx.doi.org/10.1101/006346}{doi: 10.1101/006346}.
+#'
+#'   The original FlyCircuit data were obtained from:
 #'
 #'   Chiang A.S., Lin C.Y., Chuang C.C., Chang H.M., Hsieh C.H., Yeh C.W., Shih
 #'   C.T., Wu J.J., Wang G.T., Chen Y.C., Wu C.C., Chen G.Y., Ching Y.T., Lee
